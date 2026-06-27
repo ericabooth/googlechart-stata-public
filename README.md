@@ -8,7 +8,7 @@ Stata program to create a webpage, dashboard, or single iframe bound Google Char
 <img width="958" height="734" alt="image" src="https://github.com/user-attachments/assets/80ead98d-605a-46d5-b073-db5c3f96a13f" />
 
 
-`googlechart` is a sibling — not a replacement — for [sparkta2](https://github.com/ericbooth/sparkta2-stata). Both produce self-contained interactive HTML from Stata; they target different use cases.
+`googlechart` is a sibling — not a replacement — for [sparkta2](https://github.com/ericbooth/sparkta2-stata-public). Both produce self-contained interactive HTML from Stata; they target different use cases.
 
 |                            | sparkta2                  | googlechart                                       |
 |----------------------------|---------------------------|---------------------------------------------------|
