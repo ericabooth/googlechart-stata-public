@@ -37,7 +37,7 @@ There are three install paths, in order of preference for TX2036 users:
 
 ### A. Texas 2036 `_codeshare` (recommended for staff)
 
-Already on the Stata adopath for users with the standard `profile.do` that points `adopath ++` at the team's `_codeshare/` Drive folder. No further setup needed:
+ No further setup needed:
 
 ```stata
 which googlechart
