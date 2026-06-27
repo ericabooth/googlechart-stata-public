@@ -1,6 +1,9 @@
 # googlechart
 
-**Stata wrapper for the Google Charts (Visualization API) library, with Texas 2036 brand defaults.**
+**Stata wrapper for the Google Charts (Visualization API) library.**
+
+<img width="958" height="734" alt="image" src="https://github.com/user-attachments/assets/80ead98d-605a-46d5-b073-db5c3f96a13f" />
+
 
 `googlechart` is a sibling — not a replacement — for [sparkta2](https://github.com/ericbooth/sparkta2-stata). Both produce self-contained interactive HTML from Stata; they target different use cases.
 
@@ -15,6 +18,7 @@
 | **Theming**                | TX2036 brand + Montserrat via `tx2036style` | Same |
 
 If your output must work offline (briefs, embargoed reports), use sparkta2. If it's a live web embed or an internal dashboard and you want chart types sparkta2 doesn't cover (combo, bubble with a Play button across years, geo, animated line, searchable table), use googlechart.
+For a runnable gallery exercising every chart type, see [test_googlechart.do](test_googlechart.do).
 
 ## Supported chart types (v0.1)
 
