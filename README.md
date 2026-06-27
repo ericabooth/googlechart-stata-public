@@ -2,6 +2,9 @@
 
 **Stata wrapper for the Google Charts (Visualization API) library.**
 
+Stata program to create a webpage, dashboard, or single iframe bound Google Chart interactive element via Stata. 
+
+
 <img width="958" height="734" alt="image" src="https://github.com/user-attachments/assets/80ead98d-605a-46d5-b073-db5c3f96a13f" />
 
 
@@ -60,6 +63,10 @@ which googlechart
 ```
 
 **Important: use an absolute path, not `~`.** The `~` shorthand is not expanded inside the quoted shell arguments that `sparkta2_appendfile` (the helper that embeds the engine into the output HTML) passes to `cat`. A tilde path would silently emit an empty `<script></script>` block — the chart would never render. Either install via path A or B above (preferred), or expand `~` to its absolute form here.
+
+
+
+<img width="1271" height="735" alt="image" src="https://github.com/user-attachments/assets/54e5f920-6d8f-4c72-a88a-2ea1a48f18ac" />
 
 ## Quick start
 
