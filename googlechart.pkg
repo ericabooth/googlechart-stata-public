@@ -1,0 +1,41 @@
+v 3
+d googlechart. Stata wrapper for the Google Charts (Visualization API)
+d library, with Texas 2036 brand defaults.
+d
+d googlechart is a sibling -- not a replacement -- to sparkta2.  Both
+d produce self-contained interactive HTML from Stata; they target
+d different use cases.  sparkta2 embeds d3 + topojson inline and works
+d offline (briefs, embargoed reports, sub-state Texas geography).
+d googlechart loads google.charts/loader.js from gstatic.com (required
+d by Google's Terms of Service -- the loader cannot be self-hosted) and
+d in return gives 14 chart types, native filter dropdowns (Dashboard +
+d ControlWrapper), polished default tooltips, an interactive Table type
+d with free-text search, and animation on most chart types.
+d
+d Supported chart types (v0.1):
+d   column, bar, line, area, combo, pie, donut, scatter, bubble,
+d   geo (country + US-state level), timeline, table (searchable),
+d   histogram, divbar (Pew-style diverging stacked bar).
+d
+d Requires: Stata 17+, network access at view time for the resulting
+d HTML, sparkta2 helpers (sparkta2_appendfile.ado, sparkta2_embedjs.ado)
+d for embedding the engine into the output HTML.
+d
+d KW: google charts
+d KW: visualization
+d KW: interactive
+d KW: html
+d KW: dashboard
+d KW: choropleth
+d KW: divbar
+d KW: likert
+d KW: texas 2036
+d
+d Author: Eric A. Booth, Texas 2036
+d Support: eric.booth@texas2036.org
+d Distribution-Date: 20260626
+d
+f googlechart.ado
+f googlechart.sthlp
+f googlechart_writehtml.ado
+f googlechart_engine.js

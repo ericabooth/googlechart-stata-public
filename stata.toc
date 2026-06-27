@@ -1,0 +1,3 @@
+v 3
+d googlechart: Stata wrapper for Google Charts (Visualization API) -- 14 chart types, brand defaults, searchable table, divbar workaround
+p googlechart
