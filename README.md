@@ -38,7 +38,7 @@ Open the resulting HTML in any modern browser with internet access.
 The package is self-contained — `googlechart.ado`, the helper ado files, the engine, and the helpfile install together. No external Stata dependencies.
 
 ```stata
-net install googlechart, from("https://raw.githubusercontent.com/ericbooth/googlechart-stata/master/") replace
+net install googlechart, from("https://raw.githubusercontent.com/ericabooth/googlechart-stata/master/") replace
 which googlechart
 help googlechart
 ```
