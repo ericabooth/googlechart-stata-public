@@ -247,16 +247,16 @@ program define googlechart_writehtml
     file write `fh' `""table_frozencols":`tblfrozencols'"' _n
     file write `fh' `"},"' _n
     file write `fh' `""filters":"' _n
-    sparkta2_appendfile, fh(`fh') path("`filterjson'") outpath(`"`export'"')
+    googlechart_appendfile, fh(`fh') path("`filterjson'") outpath(`"`export'"')
     file write `fh' `","' _n
     file write `fh' `""data":["' _n
-    sparkta2_appendfile, fh(`fh') path("`rowjson'") outpath(`"`export'"')
+    googlechart_appendfile, fh(`fh') path("`rowjson'") outpath(`"`export'"')
     file write `fh' `"]"' _n
     file write `fh' `"};"' _n
     file write `fh' `"</script>"' _n
 
     * Inline the engine source (one self-contained file).
-    sparkta2_embedjs, fh(`fh') path("`engpath'") outpath(`"`export'"')
+    googlechart_embedjs, fh(`fh') path("`engpath'") outpath(`"`export'"')
     file write `fh' `"<script>googlechartRender(window.__GOOGLECHART__);</script>"' _n
 
     file write `fh' `"</body></html>"' _n

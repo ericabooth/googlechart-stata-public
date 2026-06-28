@@ -29,21 +29,15 @@ version 17.0
 clear all
 set more off
 
-* googlechart lives at the root of _codeshare alongside sparkta2 (which
-* is already on every TX2036 team member's adopath via the standard
-* profile.do).  No `adopath ++' line is needed here -- findfile will
-* resolve googlechart_engine.js to its absolute _codeshare path, which
-* is what sparkta2_appendfile's shell-cat needs to embed the engine
-* into the output HTML.
-*
-* If you're iterating on the source files in ~/Documents/Cursor/googlechart/
-* without re-syncing to _codeshare yet, copy the four .ado / .js files
-* to _codeshare's root by hand (or use the sync block at the top of
-* googlechart-stata-public/test_googlechart.do which does this for you).
+* googlechart should already be on the Stata adopath if you ran
+*    net install googlechart, from("/path/to/the/clone") replace
+* If `which googlechart' fails below, install the package per the
+* README and try again.
 
 capture which googlechart
 if _rc {
-    display as error "googlechart not on adopath -- check _codeshare or your local clone."
+    display as error "googlechart is not on the adopath."
+    display as error "  Install it first.  See README.md."
     exit 199
 }
 
