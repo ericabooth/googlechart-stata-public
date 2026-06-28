@@ -35,27 +35,15 @@ Open the resulting HTML in any modern browser with internet access.
 
 ## Install
 
-The package is self-contained — `googlechart.ado`, the helper ado files, the engine `googlechart_engine.js`, and the helpfile install together. No external Stata dependencies.
-
-### Path A: Clone + `net install` (recommended)
+The package is self-contained — `googlechart.ado`, the helper ado files, the engine, and the helpfile install together. No external Stata dependencies.
 
 ```stata
-net install googlechart, ///
-    from("https://raw.githubusercontent.com/ericbooth/googlechart-stata/main") replace
+net install googlechart, from("https://raw.githubusercontent.com/ericbooth/googlechart-stata/master/") replace
 which googlechart
 help googlechart
 ```
 
-(Replace the URL with whatever location holds the package: a GitHub raw URL, a local mirror, or a `file:` URI to a clone you already have.)
-
-### Path B: Local clone + `net install` from disk
-
-```stata
-net install googlechart, from("/absolute/path/to/the/clone") replace
-which googlechart
-```
-
-The package ships `googlechart.pkg` and `stata.toc` so Stata's installer finds everything. Use an absolute path — Stata does not expand `~` in `from()`.
+The package ships `googlechart.pkg` and `stata.toc`, so Stata's installer picks up every file in one call. No manual `adopath` step is needed.
 
 ### Choosing a working folder for the output HTML
 
@@ -123,4 +111,4 @@ For a runnable gallery exercising every chart type, see [test_googlechart.do](te
 
 ## Author and license
 
-Authored by Eric Booth (Texas 2036), 2026. Built atop the Google Charts library; this package is not affiliated with or endorsed by Google. MIT-licensed (see `LICENSE`).
+Eric A. Booth, Sr Researcher, Texas2036.org (eric.a.booth@gmail.com). MIT-licensed (see `LICENSE`). Built atop the Google Charts library; this package is not affiliated with or endorsed by Google.
