@@ -25,7 +25,7 @@
 *!     numbers render two different ways (Stata + Google Charts vs.
 *!     manual Sheets UI).  See the README for the side-by-side guide.
 
-version 17.0
+version 16.0
 clear all
 set more off
 
@@ -79,7 +79,7 @@ save "`regions'", replace
 * SHEET MIRROR: Step 3, "Bar / Column", same 5 regions, vertical orientation.
 *=============================================================================
 googlechart poverty_rate, name(region_n) type(column)                          ///
-    tx2036style download datatable animate                                     ///
+      download datatable animate                                     ///
     title("Texas regions: mean poverty rate")                                  ///
     subtitle("Vertical bars (column), Texas 2036 palette, animate-on-scroll") ///
     ylabel("Poverty rate (%)")                                                 ///
@@ -97,7 +97,7 @@ googlechart poverty_rate, name(region_n) type(column)                          /
 googlechart poverty_rate, name(region_n) type(bar)                             ///
     tooltipvars(uninsured_rate pop_thou)                                       ///
     directlabels                                                               ///
-    tx2036style download datatable downloadpos(below)                          ///
+      download datatable downloadpos(below)                          ///
     title("Texas regions: poverty rate (horizontal)")                          ///
     xlabel("Poverty rate (%)")                                                 ///
     width(900) height(500) noopen                                              ///
@@ -139,7 +139,7 @@ end
 * same 3 series and same year coverage.
 *=============================================================================
 googlechart y yr, over(series) type(line)                                       ///
-    tx2036style download datatable animate                                      ///
+      download datatable animate                                      ///
     title("Trend, 2018-2024 (multi-series line)")                               ///
     xlabel("Year") ylabel("% meeting standard")                                 ///
     width(980) height(560) noopen                                               ///
@@ -150,7 +150,7 @@ googlechart y yr, over(series) type(line)                                       
 * (4) AREA -- same data, filled-area
 *=============================================================================
 googlechart y yr, over(series) type(area)                                       ///
-    tx2036style download datatable animate                                      ///
+      download datatable animate                                      ///
     title("Trend as filled-area chart")                                         ///
     xlabel("Year") ylabel("% meeting standard")                                 ///
     width(980) height(560) noopen                                               ///
@@ -162,7 +162,7 @@ googlechart y yr, over(series) type(area)                                       
 *=============================================================================
 googlechart y yr, over(series) type(combo)                                      ///
     combodflt(bars) combotypes("bars|bars|line")                                ///
-    tx2036style download datatable animate downloadpos(below)                   ///
+      download datatable animate downloadpos(below)                   ///
     title("Combo: bars for Texas + ESC 13, line for ESC 4")                     ///
     xlabel("Year") ylabel("% meeting standard")                                 ///
     width(980) height(560) noopen                                               ///
@@ -191,7 +191,7 @@ end
 * SHEET MIRROR: Step 4, second chart of the Donut + Pie pair.
 *=============================================================================
 googlechart enroll, name(sector) type(pie)                                      ///
-    tx2036style download datatable downloadpos(below) directlabels animate      ///
+      download datatable downloadpos(below) directlabels animate      ///
     legendpos(bottom)                                                           ///
     title("Public sectors enroll 84% of Texas postsecondary students")          ///
     width(640) height(540) noopen                                               ///
@@ -203,7 +203,7 @@ googlechart enroll, name(sector) type(pie)                                      
 * SHEET MIRROR: Step 4, first chart of the Donut + Pie pair.
 *=============================================================================
 googlechart enroll, name(sector) type(donut) innerradius(0.5)                   ///
-    tx2036style download datatable downloadpos(below) directlabels animate      ///
+      download datatable downloadpos(below) directlabels animate      ///
     legendpos(bottom)                                                           ///
     title("Texas postsecondary enrollment by sector (donut)")                   ///
     width(640) height(540) noopen                                               ///
@@ -249,7 +249,7 @@ preserve
 keep if yr == 2024
 googlechart pov life, name(county) type(scatter)                                ///
     tooltipvars(pop_k)                                                          ///
-    tx2036style download datatable animate                                      ///
+      download datatable animate                                      ///
     title("Life expectancy vs poverty rate (scatter, 2024)")                    ///
     xlabel("Poverty rate (%)") ylabel("Life expectancy (years)")                ///
     width(900) height(560) noopen                                               ///
@@ -262,7 +262,7 @@ restore
 *=============================================================================
 googlechart pov life, name(county) over(ur) sizevar(pop_k) time(yr) type(bubble) ///
     tooltipvars(pop_k yr)                                                       ///
-    tx2036style download datatable animate downloadpos(below)                   ///
+      download datatable animate downloadpos(below)                   ///
     title("Bubble over time: counties move 2020-2024 (press Play)")             ///
     xlabel("Poverty rate (%)") ylabel("Life expectancy (years)")                ///
     width(900) height(560) noopen                                               ///
@@ -294,7 +294,7 @@ end
 *=============================================================================
 googlechart metric, name(state_code) type(geo)                                  ///
     georegion("US") georesolution("us-states")                                  ///
-    tx2036style download datatable scheme(blues)                                ///
+      download datatable scheme(blues)                                ///
     title("US states: example metric")                                          ///
     note("Note: GeoChart supports country + US-state level only.  For Texas county work, use sparkta2.") ///
     width(900) height(560) noopen                                               ///
@@ -322,7 +322,7 @@ format start_d end_d %td
 *=============================================================================
 googlechart, type(timeline) name(session)                                       ///
     startvar(start_d) endvar(end_d)                                             ///
-    tx2036style download datatable downloadpos(below)                           ///
+      download datatable downloadpos(below)                           ///
     title("Texas legislative sessions, 86th-89th")                              ///
     width(980) height(420) noopen                                               ///
     export("`out'/11_timeline.html")
@@ -344,7 +344,7 @@ use "`regions'", clear
 googlechart, type(table)                                                        ///
     tooltipvars(region_n poverty_rate uninsured_rate pop_thou life_expect urban) ///
     tablesearch tableheadersticky                                               ///
-    tx2036style download datatable downloadpos(below)                           ///
+      download datatable downloadpos(below)                           ///
     title("Texas regions: searchable data table")                               ///
     width(980) height(420) noopen                                               ///
     export("`out'/12_table.html")
@@ -397,7 +397,7 @@ label variable margin_pct "+/- margin (pp)"
 googlechart, type(table)                                                        ///
     tooltipvars(q response share topic_area sample_n margin_pct)                ///
     tablesearch tableheadersticky                                               ///
-    tx2036style download datatable downloadpos(below)                           ///
+      download datatable downloadpos(below)                           ///
     title("Likert long-form table (search across all 6 items + columns)")       ///
     note("Companion to the diverging stacked bar in section 1. Type a topic or response level to filter. Table is wider than the card -- scroll horizontally to see all columns.") ///
     width(980) height(420) noopen                                               ///
@@ -419,7 +419,7 @@ gen str10 grade = cond(score < 70, "Below", cond(score < 85, "Approaches", "Meet
 * (13) HISTOGRAM -- distribution of synthetic scores
 *=============================================================================
 googlechart score, type(histogram)                                              ///
-    tx2036style download datatable animate                                      ///
+      download datatable animate                                      ///
     title("Distribution of synthetic scores (n=500)")                           ///
     xlabel("Score") ylabel("Count")                                             ///
     width(900) height(560) noopen                                               ///
@@ -480,7 +480,7 @@ end
 googlechart share, name(q) level(response) type(divbar)                         ///
     levelorder("Strongly disagree|Disagree|Neutral|Agree|Strongly agree")       ///
     centerlevel(Neutral)                                                        ///
-    tx2036style download datatable downloadpos(below)                           ///
+      download datatable downloadpos(below)                           ///
     title("Texans on K-12 and higher-ed policy (Likert, divbar)")               ///
     subtitle("Pew-style diverging stacked bar via Google Charts sign-flip workaround") ///
     width(1100) height(620) noopen                                              ///
@@ -506,7 +506,7 @@ if !_rc {
         files("14_divbar.html 12b_table_likert.html 02_bar.html 03_line.html 06_pie.html 07_donut.html 01_column.html 04_area.html 05_combo.html 08_scatter.html 09_bubble.html 10_geo.html 11_timeline.html 12_table.html 13_histogram.html") ///
         titles("Diverging stacked bar (Pew-style Likert)|Likert long-form (searchable table)|Bar (horizontal, with data labels)|Line (multi-series)|Pie (legend below, square frame)|Donut (legend below, square frame)|Column (same data as bar, vertical)|Area|Combo (bars + line)|Scatter|Bubble (with Play across years)|Geo (US states)|Timeline|Regions table (searchable)|Histogram") ///
         heights("700")                                                           ///
-        tx2036style                                                              ///
+                                                                       ///
         title("googlechart v0.1.0 -- demo gallery")                              ///
         subtitle("Fourteen chart types from the Google Visualization API, wrapped for Stata.  Texas 2036 brand (Montserrat + navy/orange) applied throughout.  Requires network at view time -- googlechart loads google.charts/loader.js from gstatic.com per Google ToS.") ///
         export("`out'/00_gallery.html") noopen
