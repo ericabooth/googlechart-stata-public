@@ -42,7 +42,7 @@ Open the resulting HTML in any modern browser with internet access.
 The package is self-contained — `googlechart.ado`, the helper ado files, the engine, and the helpfile install together. No external Stata dependencies.
 
 ```stata
-net install googlechart, from("https://raw.githubusercontent.com/ericabooth/googlechart-stata/master/") replace
+net install googlechart, from("https://raw.githubusercontent.com/ericabooth/googlechart-stata-public/master/") replace
 which googlechart
 help googlechart
 ```
@@ -120,4 +120,5 @@ For a runnable gallery exercising every chart type, see the included test file: 
 
 ## Author and license
 
-Eric A. Booth, Sr Researcher, Texas2036.org (eric.a.booth@gmail.com). MIT-licensed (see `LICENSE`). Built atop the Google Charts library; this package is not affiliated with or endorsed by Google.
+Eric A. Booth, Sr Researcher, Texas2036.org (eric.a.booth@gmail.com). 
+MIT-licensed (see `LICENSE`). Built atop the Google Charts library; this package is not affiliated with or endorsed by Google.
