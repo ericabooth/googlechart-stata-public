@@ -185,9 +185,16 @@ program define googlechart, rclass
     if "`export'" == "" local export "`c(pwd)'/googlechart_`type'.html"
 
     * --- Discover the engine and helpers --------------------------
-    capture findfile googlechart_engine.js
+    * The engine is shipped as googlechart_engine.sthlp because Stata's
+    * net install only copies files with a small set of recognised
+    * extensions (.ado, .sthlp, .mata, .mlib, .dta, ...).  .js is NOT in
+    * that list -- net install silently skips it -- so we use .sthlp as
+    * a safe container for the JavaScript text.  The contents are not
+    * Stata syntax; the file is treated as opaque text and embedded
+    * into the output HTML via googlechart_embedjs.
+    capture findfile googlechart_engine.sthlp
     if _rc {
-        display as error "googlechart: googlechart_engine.js not on adopath."
+        display as error "googlechart: googlechart_engine.sthlp not on adopath."
         display as error "  Make sure the googlechart package is in your _codeshare or local clone."
         exit 601
     }

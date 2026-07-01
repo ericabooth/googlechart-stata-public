@@ -324,7 +324,7 @@ that subset.{p_end}
 {title:Author and acknowledgements}
 
 {pstd}
-googlechart is Eric Booth (Texas 2036), 2026.  Built atop Google Charts
+googlechart is Eric A. Booth, Sr Researcher, Texas2036.org (eric.a.booth@gmail.com),, 2026.  Built atop Google Charts
 (https://developers.google.com/chart) which is the property of Google LLC
 and is subject to the Google Charts Terms of Service.  This package is
 not affiliated with or endorsed by Google.
