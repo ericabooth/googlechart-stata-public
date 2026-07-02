@@ -1,4 +1,4 @@
-*! googlechart v0.1.0  2026-06-26
+*! googlechart v0.1.1  2026-06-28
 *! Stata wrapper for the Google Charts (Visualization API) library.
 *!
 *! SIBLING to sparkta2 -- different use case, not a replacement.

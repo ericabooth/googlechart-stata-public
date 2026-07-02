@@ -1,4 +1,4 @@
-*! googlechart_writehtml v0.1.0  2026-06-26
+*! googlechart_writehtml v0.1.1  2026-06-28
 *! Assemble the self-contained HTML for a googlechart chart.
 *!
 *! Page structure mirrors sparkta2's chart writehtml (Texas 2036 brand
