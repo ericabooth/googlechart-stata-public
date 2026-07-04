@@ -15,6 +15,10 @@ googlechart poverty_rate, name(region) type(column)             ///
 
 Open the resulting HTML in any modern browser with internet access.
 
+Live example site here: https://ericabooth.github.io/GoogleChart_Example_Site/ 
+
+
+--
 
 <img width="1082" height="633" alt="Screenshot 2026-06-29 at 1 02 27 PM" src="https://github.com/user-attachments/assets/06353fc4-0535-44e3-90a4-5a1ebf7e185d" />
 
