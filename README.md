@@ -109,13 +109,20 @@ For a runnable gallery exercising every chart type, see the included test file: 
 
 
 
-## New options in this build (v0.1.1)
+## Changelog
+
+### v0.1.2
+
+- **Guard: `animate` + `directlabels` on `type(bar)` / `type(column)`.** The annotation-role column that `directlabels` adds makes Google Charts throw on `animation.startup`, leaving the chart blank. `googlechart` now detects this combination, drops `animate`, and prints a note — so you get a chart that draws instead of a page that silently fails. Use one or the other on these types.
+- Documented that `time()` needs a **panel**: one row per entity per value of the time variable (e.g. 51 states × 10 years). A single cross-section gives the Play control only one frame and nothing moves.
+
+### v0.1.1
 
 - `legendpos(top|right|bottom|left)` — explicit legend placement. Pie / donut default to `bottom`.
 - `tablesearch` — adds a free-text Search box above the rendered `type(table)`. Filters rows by substring match across all columns; row count updates live.
 - `tableheadersticky` — sticky table header on scroll.
 - `directlabels` on `type(bar)` / `type(column)` — value labels above each bar (annotation role, classic corechart).
-- `time(varname)` on `type(bubble)` — adds a Play button + range slider so bubbles animate across the time dimension.
+- `time(varname)` on `type(bubble)` — adds a Play button + range slider so bubbles animate across the time dimension. Requires a panel (one row per entity per value of the time variable).
 - `animate` on `type(pie)` / `type(donut)` — Google does not honor `animation.startup` for pie / donut. The wrapper substitutes a CSS opacity fade + scale-in on the chart `ready` event so the option is actually visible.
 
 ## Author and license

@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 0.1.0  2026-06-26}{...}
+{* *! version 0.1.2  2026-07-04}{...}
 {vieweralsosee "[G] graph" "help graph"}{...}
 {vieweralsosee "sparkta2" "help sparkta2"}{...}
 {viewerjumpto "Syntax" "googlechart##syntax"}{...}
@@ -108,7 +108,7 @@ and series colors.
 {synopt :{cmd:labelwrap(}{it:#}|{bf:none}{cmd:)}}divbar row-label wrap width (default 50 chars; {bf:none} disables){p_end}
 {synopt :{cmd:tablesearch}}free-text Search box above {cmd:type(table)} -- substring match across all columns{p_end}
 {synopt :{cmd:tableheadersticky}}sticky table header on scroll (use with {cmd:type(table)}){p_end}
-{synopt :{cmd:time(}{it:varname}{cmd:)}}for {cmd:type(bubble)}: time dimension that drives a Play button + range slider across years{p_end}
+{synopt :{cmd:time(}{it:varname}{cmd:)}}for {cmd:type(bubble)}: time dimension that drives a Play button + range slider (requires a {it:panel} -- one row per entity per value of {it:varname}){p_end}
 {synopt :{cmd:geo_region(}{it:string}{cmd:)}}geo region: {bf:world} | {bf:US} | {bf:150} | etc.{p_end}
 {synopt :{cmd:geo_resolution(}{it:string}{cmd:)}}{bf:countries} | {bf:provinces} | {bf:metros} | {bf:us-states} (alias for {bf:provinces}){p_end}
 {synopt :{cmd:combo_types(}{it:string}{cmd:)}}pipe-separated per-series chart type for {cmd:combo}{p_end}
@@ -180,6 +180,19 @@ fires for those types; the chart just doesn't ease in.{p_end}
 {phang}{bf:isHtml tooltips disable PNG export.}  The package does not
 currently turn on isHtml tooltips so PNG export works on all corechart
 types.{p_end}
+
+{phang}{bf:animate is incompatible with directlabels on bar/column.}
+{cmd:directlabels} adds an annotation-role column, and Google Charts throws
+on {cmd:animation.startup} when that column is present, leaving the chart
+blank.  {cmd:googlechart} detects this combination on {cmd:type(bar)} and
+{cmd:type(column)}, drops {cmd:animate}, and prints a note.  Use one or the
+other on these types.{p_end}
+
+{phang}{bf:time() needs a panel.}  {cmd:time(}{it:varname}{cmd:)} on
+{cmd:type(bubble)} animates one bubble per entity across the frames given by
+{it:varname}, so the data must be in long/panel form: one row per entity per
+time value (e.g. 51 states {c 215} 10 years = 510 rows).  A single
+cross-section gives the Play control only one frame and nothing moves.{p_end}
 
 {phang}{bf:PDF is intentionally omitted.}  Use your browser's File > Print
 to save the chart as PDF -- a print stylesheet in the HTML hides the
@@ -317,14 +330,14 @@ that subset.{p_end}
 {phang}{cmd}    files("01_column.html 03_line.html 04_donut.html 10_divbar.html") ///{p_end}
 {phang}{cmd}    titles("Column|Line|Donut|Divbar")                       ///{p_end}
 {phang}{cmd}    heights("680") tx2036style                                ///{p_end}
-{phang}{cmd}    title("googlechart v0.1.0 demo gallery")                 ///{p_end}
+{phang}{cmd}    title("googlechart v0.1.2 demo gallery")                 ///{p_end}
 {phang}{cmd}    export("gallery.html"){p_end}
 
 
 {title:Author and acknowledgements}
 
 {pstd}
-googlechart is Eric A. Booth, Sr Researcher, Texas2036.org (eric.a.booth@gmail.com),, 2026.  Built atop Google Charts
+googlechart is by Eric A. Booth, Sr Researcher, Texas2036.org (eric.a.booth@gmail.com), 2026.  Built atop Google Charts
 (https://developers.google.com/chart) which is the property of Google LLC
 and is subject to the Google Charts Terms of Service.  This package is
 not affiliated with or endorsed by Google.

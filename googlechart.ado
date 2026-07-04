@@ -1,4 +1,4 @@
-*! googlechart v0.1.1  2026-06-28
+*! googlechart v0.1.2  2026-07-04
 *! Stata wrapper for the Google Charts (Visualization API) library.
 *!
 *! SIBLING to sparkta2 -- different use case, not a replacement.
@@ -86,6 +86,18 @@ program define googlechart, rclass
     local is_directlbl  = cond("`directlabels'" != "", 1, 0)
     local is_tblsearch  = cond("`tablesearch'"   != "", 1, 0)
     local is_tblsticky  = cond("`tableheadersticky'" != "", 1, 0)
+
+    * Guard: on a bar/column chart, directlabels adds an annotation-role
+    * column, and Google Charts throws on animation.startup when that column
+    * is present -- the chart then renders blank.  The two options are
+    * mutually exclusive here, so drop animate and tell the user rather than
+    * emit a page that silently fails to draw.
+    if `is_animate' & `is_directlbl' & inlist("`type'","bar","column") {
+        display as text "googlechart: animate is incompatible with directlabels on " ///
+            "type(`type') (Google Charts errors on the annotation column); ignoring animate."
+        local is_animate = 0
+    }
+
     if "`legendpos'" == "" local legendpos ""
     local legendpos = lower("`legendpos'")
 
@@ -458,7 +470,7 @@ program define googlechart, rclass
         tblfrozencols(`tablefrozencols')                                    ///
         width(`width') height(`height')
 
-    display as text _n "[googlechart v0.1.0]  `type' written:"
+    display as text _n "[googlechart v0.1.2]  `type' written:"
     display as text `"  {browse "`export'":`export'}"'
     display as text "  Rows: `_rows_written'  Scheme: `scheme'"
 
