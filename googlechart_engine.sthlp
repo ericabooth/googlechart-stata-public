@@ -577,10 +577,9 @@
       filterHost.innerHTML = "";
       var slot = document.createElement("div");
       slot.id = "gc-filter-time";
-      var label = document.createElement("label");
-      label.htmlFor = slot.id;
-      label.textContent = meta.time || "Time";
-      filterHost.appendChild(label);
+      // The NumberRangeFilter renders its own label from filterColumnLabel, so
+      // the wrapper does not add a second <label> here: doing so printed the
+      // time variable's name twice above the slider.
       filterHost.appendChild(slot);
       var playBtn = document.createElement("button");
       playBtn.id = "gc-play"; playBtn.textContent = "▶ Play";

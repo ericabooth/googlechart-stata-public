@@ -111,6 +111,10 @@ For a runnable gallery exercising every chart type, see the included test file: 
 
 ## Changelog
 
+### v0.1.3
+
+- **Fix: `time()` slider printed the time variable's name twice.** On a `type(bubble)` Play/time control, the wrapper drew its own `<label>` *and* Google's `NumberRangeFilter` drew the same `filterColumnLabel`, so "year" appeared twice above the slider. The wrapper now leaves the single control label to Google.
+
 ### v0.1.2
 
 - **Guard: `animate` + `directlabels` on `type(bar)` / `type(column)`.** The annotation-role column that `directlabels` adds makes Google Charts throw on `animation.startup`, leaving the chart blank. `googlechart` now detects this combination, drops `animate`, and prints a note — so you get a chart that draws instead of a page that silently fails. Use one or the other on these types.

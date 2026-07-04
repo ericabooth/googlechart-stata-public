@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 0.1.2  2026-07-04}{...}
+{* *! version 0.1.3  2026-07-04}{...}
 {vieweralsosee "[G] graph" "help graph"}{...}
 {vieweralsosee "sparkta2" "help sparkta2"}{...}
 {viewerjumpto "Syntax" "googlechart##syntax"}{...}
@@ -330,7 +330,7 @@ that subset.{p_end}
 {phang}{cmd}    files("01_column.html 03_line.html 04_donut.html 10_divbar.html") ///{p_end}
 {phang}{cmd}    titles("Column|Line|Donut|Divbar")                       ///{p_end}
 {phang}{cmd}    heights("680") tx2036style                                ///{p_end}
-{phang}{cmd}    title("googlechart v0.1.2 demo gallery")                 ///{p_end}
+{phang}{cmd}    title("googlechart v0.1.3 demo gallery")                 ///{p_end}
 {phang}{cmd}    export("gallery.html"){p_end}
 
 

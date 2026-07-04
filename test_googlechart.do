@@ -1,4 +1,4 @@
-*! test_googlechart.do  v0.1.2
+*! test_googlechart.do  v0.1.3
 *!
 *!   Gallery of every googlechart type with brand styling.  Mirrors the
 *!   sparkta2 gallery pattern: one HTML per example + a sparkta2_dashboard
@@ -77,7 +77,7 @@ googlechart poverty_rate, name(region_n) type(column)                          /
     title("Texas regions: mean poverty rate")                                  ///
     subtitle("Vertical bars (column), Texas 2036 palette, animate-on-scroll") ///
     ylabel("Poverty rate (%)")                                                 ///
-    note("Source: synthetic data for googlechart v0.1.2 demonstration.")       ///
+    note("Source: synthetic data for googlechart v0.1.3 demonstration.")       ///
     width(900) height(560) noopen                                              ///
     export("`out'/01_column.html")
 
@@ -501,7 +501,7 @@ if !_rc {
         titles("Diverging stacked bar (Pew-style Likert)|Likert long-form (searchable table)|Bar (horizontal, with data labels)|Line (multi-series)|Pie (legend below, square frame)|Donut (legend below, square frame)|Column (same data as bar, vertical)|Area|Combo (bars + line)|Scatter|Bubble (with Play across years)|Geo (US states)|Timeline|Regions table (searchable)|Histogram") ///
         heights("700")                                                           ///
                                                                        ///
-        title("googlechart v0.1.2 -- demo gallery")                              ///
+        title("googlechart v0.1.3 -- demo gallery")                              ///
         subtitle("Fourteen chart types from the Google Visualization API, wrapped for Stata.  Texas 2036 brand (Montserrat + navy/orange) applied throughout.  Requires network at view time -- googlechart loads google.charts/loader.js from gstatic.com per Google ToS.") ///
         export("`out'/00_gallery.html") noopen
 }

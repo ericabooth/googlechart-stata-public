@@ -1,4 +1,4 @@
-*! googlechart v0.1.2  2026-07-04
+*! googlechart v0.1.3  2026-07-04
 *! Stata wrapper for the Google Charts (Visualization API) library.
 *!
 *! SIBLING to sparkta2 -- different use case, not a replacement.
@@ -470,7 +470,7 @@ program define googlechart, rclass
         tblfrozencols(`tablefrozencols')                                    ///
         width(`width') height(`height')
 
-    display as text _n "[googlechart v0.1.2]  `type' written:"
+    display as text _n "[googlechart v0.1.3]  `type' written:"
     display as text `"  {browse "`export'":`export'}"'
     display as text "  Rows: `_rows_written'  Scheme: `scheme'"
 
