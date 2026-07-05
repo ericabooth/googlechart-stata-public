@@ -482,7 +482,12 @@ googlechart share, name(q) level(response) type(divbar)                         
 
 
 *=============================================================================
-* GALLERY -- combine all 14 onto a single scrollable dashboard
+* OPTIONAL gallery roll-up -- combine all 14 HTML files onto one scrollable page.
+*   googlechart has NO required dependencies: every chart above is written on its
+*   own, and this final convenience just stitches them together with
+*   sparkta2_dashboard, which ships with the separate sparkta2 package.  The
+*   block is guarded, so the test runs standalone when sparkta2 is not installed.
+*   To enable it, install sparkta2 first (see its own repository), then rerun.
 *=============================================================================
 capture which sparkta2_dashboard
 if !_rc {
@@ -506,7 +511,8 @@ if !_rc {
         export("`out'/00_gallery.html") noopen
 }
 else {
-    display as text "(Skipping gallery roll-up: sparkta2_dashboard not on adopath.)"
+    display as text "(Optional gallery roll-up skipped: sparkta2 is not installed;"
+    display as text " googlechart itself requires no other package.)"
 }
 
 display as result _n "googlechart demo gallery written to:"
