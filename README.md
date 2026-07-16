@@ -17,11 +17,9 @@ Open the resulting HTML in any modern browser with internet access.
 
 Live example site here: https://ericabooth.github.io/GoogleChart_Example_Site/ 
 
-
 --
 
 <img width="1082" height="633" alt="Screenshot 2026-06-29 at 1 02 27 PM" src="https://github.com/user-attachments/assets/06353fc4-0535-44e3-90a4-5a1ebf7e185d" />
-
 
 `googlechart` is a sibling — not a replacement — for [sparkta2](https://github.com/ericabooth/Sparkta2_Example_Site). Use sparkta2 when you need a fully offline HTML (briefs, embargoed reports, sub-state geography). Use googlechart for live web embeds, dashboards, polished default tooltips, and chart types sparkta2 doesn't cover (combo, bubble-with-Play, animated line, searchable table, geo).
 
@@ -46,8 +44,7 @@ Live example site here: https://ericabooth.github.io/GoogleChart_Example_Site/
 The package is self-contained — `googlechart.ado`, the helper ado files, the engine, and the helpfile install together. No external Stata dependencies.
 
 ```stata
-net install googlechart, from("https://raw.githubusercontent.com/ericabooth/googlechart-stata-public/master/") replace
-which googlechart
+net install googlechart, from("https://raw.githubusercontent.com/ericabooth/googlechart-stata-public/main/") replace force
 help googlechart
 ```
 
@@ -109,9 +106,6 @@ googlechart poverty_rate, name(region) type(column)             ///
 For a runnable gallery exercising every chart type, see the included test file: [test_googlechart.do](test_googlechart.do).
 
 <img width="1286" height="715" alt="Screenshot 2026-06-29 at 1 02 56 PM" src="https://github.com/user-attachments/assets/88dbb18e-5718-464e-929f-b9e4464da4ce" />
-
-
-
 
 ## Changelog
 
