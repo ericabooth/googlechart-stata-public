@@ -129,5 +129,5 @@ For a runnable gallery exercising every chart type, see the included test file: 
 
 ## Author and license
 
-Eric A. Booth, Sr Researcher, Texas2036.org (eric.a.booth@gmail.com). 
+Eric A. Booth, Sr Researcher, Texas 2036 (eric.a.booth@gmail.com). 
 MIT-licensed (see `LICENSE`). Built atop the Google Charts library; this package is not affiliated with or endorsed by Google.
