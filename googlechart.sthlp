@@ -101,13 +101,13 @@ and series colors.
 {synopt :{cmd:horizontal}}swap column to bar (or accept the bar default){p_end}
 {synopt :{cmd:stacked}}stacked instead of grouped{p_end}
 {synopt :{cmd:normalize}}stacked + 100% normalised{p_end}
-{synopt :{cmd:directlabels}}value labels on slices (pie/donut), bars (column/bar via annotation role){p_end}
+{synopt :{cmd:directlabels}}values on bars (column/bar, via annotation role); switches pie/donut slice text from value to percentage{p_end}
 {synopt :{cmd:innerradius(}{it:#}{cmd:)}}donut hole fraction (default 0.45){p_end}
 {synopt :{cmd:legendpos(}{it:string}{cmd:)}}{bf:top} | {bf:right} | {bf:bottom} | {bf:left} -- pie/donut default to {bf:bottom}{p_end}
 {synopt :{cmd:bucketsize(}{it:#}{cmd:)}}explicit histogram bucket width (default auto){p_end}
 {synopt :{cmd:labelwrap(}{it:#}|{bf:none}{cmd:)}}divbar row-label wrap width (default 50 chars; {bf:none} disables){p_end}
 {synopt :{cmd:tablesearch}}free-text Search box above {cmd:type(table)} -- substring match across all columns{p_end}
-{synopt :{cmd:tableheadersticky}}sticky table header on scroll (use with {cmd:type(table)}){p_end}
+{synopt :{cmd:tableheadersticky}}accepted for compatibility; {cmd:type(table)} headers are sticky on scroll whether or not it is given{p_end}
 {synopt :{cmd:time(}{it:varname}{cmd:)}}for {cmd:type(bubble)}: time dimension that drives a Play button + range slider (requires a {it:panel} -- one row per entity per value of {it:varname}){p_end}
 {synopt :{cmd:georegion(}{it:string}{cmd:)}}geo region: {bf:world} | {bf:US} | {bf:150} | etc.{p_end}
 {synopt :{cmd:georesolution(}{it:string}{cmd:)}}{bf:countries} | {bf:provinces} | {bf:metros} | {bf:us-states} (alias for {bf:provinces}){p_end}
@@ -122,7 +122,7 @@ and series colors.
 {synopt :{cmd:animate}}IntersectionObserver-gated draw (chart appears + animates when scrolled into view){p_end}
 {synopt :{cmd:downloadpos(}{it:string}{cmd:)}}{bf:side} (default) | {bf:below} | {bf:none}{p_end}
 {marker filters}{...}
-{synopt :{cmd:filters(}{it:varlist}{cmd:)}}build a Google Dashboard with CategoryFilter (categorical) / NumberRangeFilter (numeric) per variable{p_end}
+{synopt :{cmd:filters(}{it:varlist}{cmd:)}}build a Google Dashboard with CategoryFilter (categorical) / NumberRangeFilter (numeric) per variable; takes effect for {cmd:type(column)}, {cmd:type(bar)}, {cmd:type(line)}, {cmd:type(area)}, and {cmd:type(table)} only{p_end}
 
 {syntab :Text + layout}
 {synopt :{cmd:title(}{it:string}{cmd:)}}{p_end}
@@ -137,7 +137,7 @@ and series colors.
 
 {syntab :Output}
 {synopt :{cmd:export(}{it:path}{cmd:)}}output HTML path; default {bf:googlechart_{it:type}.html} in cwd{p_end}
-{synopt :{cmd:noopen}}do not auto-open in default browser{p_end}
+{synopt :{cmd:noopen}}accepted for compatibility; {cmd:googlechart} never opens a browser, it only prints a clickable link{p_end}
 {synoptline}
 
 
@@ -244,7 +244,7 @@ expects an open {bf:cwd}; HTML files are written there.{p_end}
 {phang}{cmd}    width(640) height(540)                                  ///{p_end}
 {phang}{cmd}    export("04_donut.html"){p_end}
 
-{phang}Pie / donut default to legend below the chart and a square 640x540
+{phang}Pie / donut default to legend below the chart and the standard 980x644
 frame, so the bounding card hugs the chart instead of leaving an empty
 band of right-side legend space.  Pass {cmd:legendpos(right)} to restore
 the older layout.{p_end}
@@ -293,21 +293,21 @@ the older layout.{p_end}
 
 {phang}A free-text search box can be wired above the rendered table
 using {cmd:tablesearch}; rows filter live by substring match across all
-columns and the row count updates next to the input.  Pair with
-{cmd:tableheadersticky} for a header that stays visible while scrolling
-through long tables.{p_end}
+columns and the row count updates next to the input.  The header row stays
+visible while you scroll a long table; that is the default for every
+{cmd:type(table)} rendering and needs no option.{p_end}
 
 {phang}{cmd}googlechart, type(table)                                     ///{p_end}
 {phang}{cmd}    tooltipvars(region poverty_rate uninsured_rate pop_thou) ///{p_end}
-{phang}{cmd}    tablesearch tableheadersticky                            ///{p_end}
+{phang}{cmd}    tablesearch                                              ///{p_end}
 {phang}{cmd}    tx2036style download datatable                           ///{p_end}
 {phang}{cmd}    title("Texas regions: searchable data table")            ///{p_end}
 {phang}{cmd}    export("09_table.html"){p_end}
 
 {phang}For a dropdown-filtered (Dashboard + CategoryFilter) variant, add
-{cmd:filters(group year)} -- this composes with {cmd:tablesearch}: the
-dropdowns narrow the dataset and the search box narrows further within
-that subset.{p_end}
+{cmd:filters(group year)}.  Note that the two do not combine: when
+{cmd:filters()} is given, the table is rendered inside a dashboard and the
+{cmd:tablesearch} box is not built.  Choose dropdowns or the search box.{p_end}
 
 
 {dlgtab:10. Diverging stacked bar (Pew-style Likert)}
@@ -334,10 +334,26 @@ that subset.{p_end}
 {phang}{cmd}    export("gallery.html"){p_end}
 
 
+{marker results}{...}
+{title:Stored results}
+
+{pstd}
+{cmd:googlechart} stores the following in {cmd:r()}:
+
+{synoptset 20 tabbed}{...}
+{p2col 5 20 24 2: Scalars}{p_end}
+{synopt :{cmd:r(n_rows)}}number of data rows written to the HTML payload{p_end}
+
+{p2col 5 20 24 2: Macros}{p_end}
+{synopt :{cmd:r(export)}}path of the HTML file written{p_end}
+{synopt :{cmd:r(type)}}chart type rendered{p_end}
+{p2colreset}{...}
+
+
 {title:Author and acknowledgements}
 
 {pstd}
-googlechart is by Eric A. Booth, Sr Researcher, Texas 2036 (eric.a.booth@gmail.com), 2026.  Built atop Google Charts
+googlechart is by Eric A. Booth, Sr Researcher, Texas2036.org (eric.a.booth@gmail.com), 2026.  Built atop Google Charts
 (https://developers.google.com/chart) which is the property of Google LLC
 and is subject to the Google Charts Terms of Service.  This package is
 not affiliated with or endorsed by Google.

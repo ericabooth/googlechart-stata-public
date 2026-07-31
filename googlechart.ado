@@ -182,7 +182,7 @@ program define googlechart, rclass
             exit 198
         }
         display as txt "googlechart: type(geo) supports country and US-state level only."
-        display as txt "  For Texas county or school-district choropleth, use sparkta2 instead."
+        display as txt "  For county or school-district choropleths, use a mapping command that reads shapefiles."
     }
 
     if "`title'" == "" {
