@@ -1,6 +1,6 @@
 v 3
-d googlechart. Stata wrapper for the Google Charts (Visualization API)
-d library.  Create a self-contained interactive HTML page, dashboard,
+d Draw interactive Google Charts (Visualization API) figures from Stata.
+d Create a self-contained interactive HTML page, dashboard,
 d or single embeddable iframe from any Stata dataset.
 d
 d Fourteen chart types: column, bar, line, area, combo, pie, donut,

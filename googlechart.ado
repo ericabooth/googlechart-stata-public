@@ -218,7 +218,7 @@ program define googlechart, rclass
     * size, t__VAR.  Empty values omitted to keep the JSON tight.
     tempfile rowjson
     tempname rfh
-    file open `rfh' using "`rowjson'", write text replace
+    quietly file open `rfh' using "`rowjson'", write text replace
 
     local _first 1
     local _rows_written = 0
@@ -414,7 +414,7 @@ program define googlechart, rclass
 
     * --- Build filter spec JSON ------------------------------------------
     tempfile filterjson
-    file open `rfh' using "`filterjson'", write text replace
+    quietly file open `rfh' using "`filterjson'", write text replace
     file write `rfh' "["
     local _fcount = 0
     if "`filters'" != "" {
@@ -437,7 +437,7 @@ program define googlechart, rclass
 
     * --- Build placeholder meta JSON (engine still needs the meta block) -
     tempfile metajson
-    file open `rfh' using "`metajson'", write text replace
+    quietly file open `rfh' using "`metajson'", write text replace
     file write `rfh' "{}"
     file close `rfh'
 

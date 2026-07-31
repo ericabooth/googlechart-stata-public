@@ -69,7 +69,7 @@ and series colors.
 {synopt :{cmd:bar}}horizontal bars; one row per category{p_end}
 {synopt :{cmd:line}}line chart; supports multiple series via {cmd:over()}{p_end}
 {synopt :{cmd:area}}filled-area line chart; same data shape as line{p_end}
-{synopt :{cmd:combo}}mixed bars + lines / areas via {cmd:combo_types()}{p_end}
+{synopt :{cmd:combo}}mixed bars + lines / areas via {cmd:combotypes()}{p_end}
 {synopt :{cmd:pie}}pie chart; one row per slice{p_end}
 {synopt :{cmd:donut}}pie with center hole; {cmd:innerradius()} controls hole size{p_end}
 {synopt :{cmd:scatter}}point cloud; two-variable {it:varlist} = (x y){p_end}
@@ -109,10 +109,10 @@ and series colors.
 {synopt :{cmd:tablesearch}}free-text Search box above {cmd:type(table)} -- substring match across all columns{p_end}
 {synopt :{cmd:tableheadersticky}}sticky table header on scroll (use with {cmd:type(table)}){p_end}
 {synopt :{cmd:time(}{it:varname}{cmd:)}}for {cmd:type(bubble)}: time dimension that drives a Play button + range slider (requires a {it:panel} -- one row per entity per value of {it:varname}){p_end}
-{synopt :{cmd:geo_region(}{it:string}{cmd:)}}geo region: {bf:world} | {bf:US} | {bf:150} | etc.{p_end}
-{synopt :{cmd:geo_resolution(}{it:string}{cmd:)}}{bf:countries} | {bf:provinces} | {bf:metros} | {bf:us-states} (alias for {bf:provinces}){p_end}
-{synopt :{cmd:combo_types(}{it:string}{cmd:)}}pipe-separated per-series chart type for {cmd:combo}{p_end}
-{synopt :{cmd:combo_default(}{it:string}{cmd:)}}default chart type per series for {cmd:combo}{p_end}
+{synopt :{cmd:georegion(}{it:string}{cmd:)}}geo region: {bf:world} | {bf:US} | {bf:150} | etc.{p_end}
+{synopt :{cmd:georesolution(}{it:string}{cmd:)}}{bf:countries} | {bf:provinces} | {bf:metros} | {bf:us-states} (alias for {bf:provinces}){p_end}
+{synopt :{cmd:combotypes(}{it:string}{cmd:)}}pipe-separated per-series chart type for {cmd:combo}{p_end}
+{synopt :{cmd:combodflt(}{it:string}{cmd:)}}default chart type per series for {cmd:combo}{p_end}
 
 {syntab :Brand + interactivity}
 {synopt :{cmd:tx2036style}}Texas 2036 brand + Montserrat font{p_end}
@@ -263,9 +263,9 @@ the older layout.{p_end}
 {dlgtab:6. Combo chart -- bars + overlay line}
 
 {phang}{cmd}googlechart value, name(year) over(metric) type(combo)      ///{p_end}
-{phang}{cmd}    combo_default(bars) combo_types("bars|bars|line")       ///{p_end}
+{phang}{cmd}    combodflt(bars) combotypes("bars|bars|line")       ///{p_end}
 {phang}{cmd}    tx2036style download datatable                          ///{p_end}
-{phang}{cmd}    title("Bars + overlay line via combo_types()")          ///{p_end}
+{phang}{cmd}    title("Bars + overlay line via combotypes()")          ///{p_end}
 {phang}{cmd}    export("06_combo.html"){p_end}
 
 
@@ -273,7 +273,7 @@ the older layout.{p_end}
 
 {phang}{it:Important:} only country and US-state level are supported.{p_end}
 {phang}{cmd}googlechart value, name(state_code) type(geo)               ///{p_end}
-{phang}{cmd}    geo_region("US") geo_resolution("us-states")            ///{p_end}
+{phang}{cmd}    georegion("US") georesolution("us-states")            ///{p_end}
 {phang}{cmd}    tx2036style download datatable                          ///{p_end}
 {phang}{cmd}    title("US states -- example metric")                    ///{p_end}
 {phang}{cmd}    export("07_geo.html"){p_end}
