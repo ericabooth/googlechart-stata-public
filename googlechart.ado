@@ -470,7 +470,7 @@ program define googlechart, rclass
         tblfrozencols(`tablefrozencols')                                    ///
         width(`width') height(`height')
 
-    display as text _n "[googlechart v0.1.3]  `type' written:"
+    display as text _n "[googlechart]  `type' written:"
     display as text `"  {browse "`export'":`export'}"'
     display as text "  Rows: `_rows_written'  Scheme: `scheme'"
 

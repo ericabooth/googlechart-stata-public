@@ -53,10 +53,10 @@ embargoed reports), the visualization is a Texas county / school-district
 choropleth, or you want bivariate / hexbin maps.
 
 {pstd}
-The Texas 2036 brand is baked in: {cmd:tx2036style} loads Montserrat from
-Google Fonts and applies the brand palette ({bf:#1B2D55} navy, {bf:#D44500}
-orange, {bf:#2B6CB0} link blue, {bf:#6C7A8D} muted gray) to titles, axes,
-and series colors.
+Colors come from {cmd:scheme()}, which selects among the built-in palettes
+({bf:blues}, {bf:reds}, {bf:viridis}, and others).  One further option,
+{cmd:tx2036style}, applies a fixed house style (Montserrat plus the Texas 2036
+palette) for teams that publish under it; see the option list below.
 
 
 {marker types}{...}
@@ -210,38 +210,38 @@ expects an open {bf:cwd}; HTML files are written there.{p_end}
 {dlgtab:1. Column chart -- mean poverty by region}
 
 {phang}{cmd}collapse (mean) poverty_rate, by(region){p_end}
-{phang}{cmd}googlechart poverty_rate, name(region) type(column)         ///{p_end}
-{phang}{cmd}    tx2036style download datatable animate                  ///{p_end}
-{phang}{cmd}    title("Texas regions: mean poverty rate")               ///{p_end}
-{phang}{cmd}    ylabel("Poverty rate (%)")                              ///{p_end}
+{phang}{cmd}googlechart poverty_rate, name(region) type(column) ///{p_end}
+{phang}{cmd}    download datatable animate                      ///{p_end}
+{phang}{cmd}    title("Texas regions: mean poverty rate")       ///{p_end}
+{phang}{cmd}    ylabel("Poverty rate (%)")                      ///{p_end}
 {phang}{cmd}    export("01_column.html"){p_end}
 
 
 {dlgtab:2. Bar (horizontal) with filter dropdowns}
 
-{phang}{cmd}googlechart poverty_rate, name(region) type(bar)            ///{p_end}
-{phang}{cmd}    over(year) filters(year urban)                          ///{p_end}
-{phang}{cmd}    tx2036style download datatable downloadpos(below)       ///{p_end}
+{phang}{cmd}googlechart poverty_rate, name(region) type(bar)                ///{p_end}
+{phang}{cmd}    over(year) filters(year urban)                              ///{p_end}
+{phang}{cmd}    download datatable downloadpos(below)                       ///{p_end}
 {phang}{cmd}    title("Poverty by region -- filter by year / urbanisation") ///{p_end}
 {phang}{cmd}    export("02_bar_filters.html"){p_end}
 
 
 {dlgtab:3. Multi-series line + animate-on-scroll}
 
-{phang}{cmd}googlechart y yr, over(region) type(line)                   ///{p_end}
-{phang}{cmd}    tx2036style download datatable animate                  ///{p_end}
-{phang}{cmd}    xlabel("Year") ylabel("% meeting standard")             ///{p_end}
-{phang}{cmd}    title("Texas regions: trend 2018-2024")                 ///{p_end}
+{phang}{cmd}googlechart y yr, over(region) type(line)       ///{p_end}
+{phang}{cmd}    download datatable animate                  ///{p_end}
+{phang}{cmd}    xlabel("Year") ylabel("% meeting standard") ///{p_end}
+{phang}{cmd}    title("Texas regions: trend 2018-2024")     ///{p_end}
 {phang}{cmd}    export("03_line.html"){p_end}
 
 
 {dlgtab:4. Donut chart with brand palette (legend below)}
 
-{phang}{cmd}googlechart enrollment, name(sector) type(donut)            ///{p_end}
-{phang}{cmd}    innerradius(0.5) directlabels animate                   ///{p_end}
-{phang}{cmd}    tx2036style download datatable downloadpos(below)       ///{p_end}
-{phang}{cmd}    title("Texas postsecondary enrollment by sector")       ///{p_end}
-{phang}{cmd}    width(640) height(540)                                  ///{p_end}
+{phang}{cmd}googlechart enrollment, name(sector) type(donut)      ///{p_end}
+{phang}{cmd}    innerradius(0.5) directlabels animate             ///{p_end}
+{phang}{cmd}    download datatable downloadpos(below)             ///{p_end}
+{phang}{cmd}    title("Texas postsecondary enrollment by sector") ///{p_end}
+{phang}{cmd}    width(640) height(540)                            ///{p_end}
 {phang}{cmd}    export("04_donut.html"){p_end}
 
 {phang}Pie / donut default to legend below the chart and the standard 980x644
@@ -252,40 +252,40 @@ the older layout.{p_end}
 
 {dlgtab:5. Bubble chart -- 3+ variable comparison}
 
-{phang}{cmd}googlechart life_expect poverty_rate, name(county)          ///{p_end}
-{phang}{cmd}    over(region_name) sizevar(pop_thou)                     ///{p_end}
-{phang}{cmd}    type(bubble) tx2036style download datatable animate     ///{p_end}
-{phang}{cmd}    title("Life expectancy vs poverty rate; bubble = pop")  ///{p_end}
+{phang}{cmd}googlechart life_expect poverty_rate, name(county)             ///{p_end}
+{phang}{cmd}    over(region_name) sizevar(pop_thou)                        ///{p_end}
+{phang}{cmd}    type(bubble) download datatable animate                    ///{p_end}
+{phang}{cmd}    title("Life expectancy vs poverty rate; bubble = pop")     ///{p_end}
 {phang}{cmd}    xlabel("Poverty rate (%)") ylabel("Life expectancy (yrs)") ///{p_end}
 {phang}{cmd}    export("05_bubble.html"){p_end}
 
 
 {dlgtab:6. Combo chart -- bars + overlay line}
 
-{phang}{cmd}googlechart value, name(year) over(metric) type(combo)      ///{p_end}
+{phang}{cmd}googlechart value, name(year) over(metric) type(combo) ///{p_end}
 {phang}{cmd}    combodflt(bars) combotypes("bars|bars|line")       ///{p_end}
-{phang}{cmd}    tx2036style download datatable                          ///{p_end}
-{phang}{cmd}    title("Bars + overlay line via combotypes()")          ///{p_end}
+{phang}{cmd}    download datatable                                 ///{p_end}
+{phang}{cmd}    title("Bars + overlay line via combotypes()")      ///{p_end}
 {phang}{cmd}    export("06_combo.html"){p_end}
 
 
 {dlgtab:7. Geo chart -- US state choropleth}
 
 {phang}{it:Important:} only country and US-state level are supported.{p_end}
-{phang}{cmd}googlechart value, name(state_code) type(geo)               ///{p_end}
-{phang}{cmd}    georegion("US") georesolution("us-states")            ///{p_end}
-{phang}{cmd}    tx2036style download datatable                          ///{p_end}
-{phang}{cmd}    title("US states -- example metric")                    ///{p_end}
+{phang}{cmd}googlechart value, name(state_code) type(geo)  ///{p_end}
+{phang}{cmd}    georegion("US") georesolution("us-states") ///{p_end}
+{phang}{cmd}    download datatable                         ///{p_end}
+{phang}{cmd}    title("US states -- example metric")       ///{p_end}
 {phang}{cmd}    export("07_geo.html"){p_end}
 
 
 {dlgtab:8. Timeline -- Gantt-style swimlanes}
 
 {phang}{cmd}* Data: one row per session, with name(=row), startvar, endvar.{p_end}
-{phang}{cmd}googlechart, type(timeline) name(session_label)             ///{p_end}
-{phang}{cmd}    startvar(date_start) endvar(date_end)                   ///{p_end}
-{phang}{cmd}    tx2036style download datatable                          ///{p_end}
-{phang}{cmd}    title("Texas legislative session timeline")             ///{p_end}
+{phang}{cmd}googlechart, type(timeline) name(session_label) ///{p_end}
+{phang}{cmd}    startvar(date_start) endvar(date_end)       ///{p_end}
+{phang}{cmd}    download datatable                          ///{p_end}
+{phang}{cmd}    title("Texas legislative session timeline") ///{p_end}
 {phang}{cmd}    export("08_timeline.html"){p_end}
 
 
@@ -300,7 +300,7 @@ visible while you scroll a long table; that is the default for every
 {phang}{cmd}googlechart, type(table)                                     ///{p_end}
 {phang}{cmd}    tooltipvars(region poverty_rate uninsured_rate pop_thou) ///{p_end}
 {phang}{cmd}    tablesearch                                              ///{p_end}
-{phang}{cmd}    tx2036style download datatable                           ///{p_end}
+{phang}{cmd}    download datatable                                       ///{p_end}
 {phang}{cmd}    title("Texas regions: searchable data table")            ///{p_end}
 {phang}{cmd}    export("09_table.html"){p_end}
 
@@ -313,12 +313,12 @@ visible while you scroll a long table; that is the default for every
 {dlgtab:10. Diverging stacked bar (Pew-style Likert)}
 
 {phang}{cmd}* Long form: name = item, level = response, varlist = share %.{p_end}
-{phang}{cmd}googlechart share, name(q) level(response) type(divbar)     ///{p_end}
+{phang}{cmd}googlechart share, name(q) level(response) type(divbar)                   ///{p_end}
 {phang}{cmd}    levelorder("Strongly disagree|Disagree|Neutral|Agree|Strongly agree") ///{p_end}
-{phang}{cmd}    centerlevel(Neutral)                                    ///{p_end}
-{phang}{cmd}    tx2036style download datatable downloadpos(below)       ///{p_end}
-{phang}{cmd}    title("Texans on K-12 and higher-ed policy")            ///{p_end}
-{phang}{cmd}    width(1100) height(640)                                  ///{p_end}
+{phang}{cmd}    centerlevel(Neutral)                                                  ///{p_end}
+{phang}{cmd}    download datatable downloadpos(below)                                 ///{p_end}
+{phang}{cmd}    title("Texans on K-12 and higher-ed policy")                          ///{p_end}
+{phang}{cmd}    width(1100) height(640)                                               ///{p_end}
 {phang}{cmd}    export("10_divbar.html"){p_end}
 
 
@@ -326,11 +326,11 @@ visible while you scroll a long table; that is the default for every
 
 {phang}{cmd}* The sparkta2 dashboard composer works on any HTML files,{p_end}
 {phang}{cmd}* including googlechart outputs.  Pass the file basenames:{p_end}
-{phang}{cmd}sparkta2_dashboard,                                          ///{p_end}
+{phang}{cmd}sparkta2_dashboard,                                                   ///{p_end}
 {phang}{cmd}    files("01_column.html 03_line.html 04_donut.html 10_divbar.html") ///{p_end}
-{phang}{cmd}    titles("Column|Line|Donut|Divbar")                       ///{p_end}
-{phang}{cmd}    heights("680") tx2036style                                ///{p_end}
-{phang}{cmd}    title("googlechart v0.1.3 demo gallery")                 ///{p_end}
+{phang}{cmd}    titles("Column|Line|Donut|Divbar")                                ///{p_end}
+{phang}{cmd}    heights("680")                                                    ///{p_end}
+{phang}{cmd}    title("googlechart demo gallery")                          ///{p_end}
 {phang}{cmd}    export("gallery.html"){p_end}
 
 
