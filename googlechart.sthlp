@@ -122,7 +122,8 @@ palette) for teams that publish under it; see the option list below.
 {synopt :{cmd:animate}}IntersectionObserver-gated draw (chart appears + animates when scrolled into view){p_end}
 {synopt :{cmd:downloadpos(}{it:string}{cmd:)}}{bf:side} (default) | {bf:below} | {bf:none}{p_end}
 {marker filters}{...}
-{synopt :{cmd:filters(}{it:varlist}{cmd:)}}build a Google Dashboard with CategoryFilter (categorical) / NumberRangeFilter (numeric) per variable; takes effect for {cmd:type(column)}, {cmd:type(bar)}, {cmd:type(line)}, {cmd:type(area)}, and {cmd:type(table)} only{p_end}
+{synopt :{cmd:filters(}{it:varlist}{cmd:)}}build a Google Dashboard with CategoryFilter (categorical) / NumberRangeFilter (numeric) per variable;{p_end}
+{synopt :}takes effect for {cmd:type(column)}, {cmd:type(bar)}, {cmd:type(line)}, {cmd:type(area)}, and {cmd:type(table)} only{p_end}
 
 {syntab :Text + layout}
 {synopt :{cmd:title(}{it:string}{cmd:)}}{p_end}
