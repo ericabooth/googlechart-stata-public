@@ -1,6 +1,6 @@
 *! test_googlechart.do  v0.1.3
 *!
-*!   Gallery of every googlechart type with brand styling.  Mirrors the
+*!   Gallery of every googlechart type in the default colors.  Mirrors the
 *!   sparkta2 gallery pattern: one HTML per example + a sparkta2_dashboard
 *!   roll-up at the end.
 *!
@@ -25,7 +25,7 @@
 *!     numbers render two different ways (Stata + Google Charts vs.
 *!     manual Sheets UI).  See the README for the side-by-side guide.
 
-version 16.0
+version 17.0
 clear all
 set more off
 

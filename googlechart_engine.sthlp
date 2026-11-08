@@ -1,6 +1,7 @@
 /* googlechart_engine.js -- Google Charts (Visualization API) renderer for the
    `googlechart` Stata package.  Loads the Google Charts CDN, applies a
-   Texas 2036 brand theme, and dispatches per type() to a small per-chart
+   neutral theme (the authors' house style only when tx2036style is set),
+   and dispatches per type() to a small per-chart
    renderer.
 
    Designed as a SIBLING (not a replacement) for sparkta2.  Trade-off
@@ -34,9 +35,11 @@
   "use strict";
 
   // ---- Brand palettes ------------------------------------------------------
-  // tx2036 = Texas 2036 brand cycle.  Sequential / diverging palettes
-  // mirror sparkta2's scheme names so existing users find them familiar.
+  // default = Google Charts' standard series colors (used when scheme() is
+  // omitted or unknown).  tx2036 = the authors' house palette, opt-in only.
+  // Sequential / diverging palettes mirror sparkta2's scheme names.
   var PALETTES = {
+    "default": ["#3366cc","#dc3912","#ff9900","#109618","#990099","#0099c6","#dd4477","#66aa00","#b82e2e","#316395"],
     tx2036:   ["#1B2D55","#D44500","#2B6CB0","#6C7A8D","#7A9D54","#A67B36","#9C5BA5","#3F8A8C","#C0392B","#F1A208"],
     blues:    ["#deebf7","#9ecae1","#3182bd","#08519c","#08306b","#2171b5","#4292c6","#6baed6","#9ecae1","#c6dbef"],
     reds:     ["#fee5d9","#fcbba1","#fc9272","#fb6a4a","#ef3b2c","#cb181d","#a50f15","#67000d"],
@@ -71,25 +74,30 @@
   }
   function paletteFor(meta) {
     var name = (meta.scheme || (meta.tx2036style ? "tx2036" : "blues")).toLowerCase();
-    return PALETTES[name] || PALETTES.tx2036;
+    return PALETTES[name] || PALETTES["default"];
   }
+  // Text colors: neutral by default; the house navy/slate only with
+  // tx2036style.
+  function inkColor(meta)   { return meta && meta.tx2036style ? "#1B2D55" : "#202124"; }
+  function mutedColor(meta) { return meta && meta.tx2036style ? "#6C7A8D" : "#5f6368"; }
+
   function brandOptions(meta) {
     // Common chart options used as the base; per-type renderers spread their
     // own overrides on top.
-    var fontName = meta.tx2036style ? "Montserrat" : "Roboto, Arial, sans-serif";
+    var fontName = meta.tx2036style ? "Montserrat, Roboto, Arial, sans-serif" : "Roboto, Arial, sans-serif";
     return {
       colors: paletteFor(meta),
       fontName: fontName,
       backgroundColor: "transparent",
-      titleTextStyle: { color: "#1B2D55", bold: true, fontName: fontName, fontSize: 16 },
+      titleTextStyle: { color: inkColor(meta), bold: true, fontName: fontName, fontSize: 16 },
       legend: { position: "bottom", alignment: "center",
-                textStyle: { color: "#6C7A8D", fontName: fontName, fontSize: 11 } },
+                textStyle: { color: mutedColor(meta), fontName: fontName, fontSize: 11 } },
       tooltip: { textStyle: { fontName: fontName, fontSize: 12 } },
-      hAxis: { textStyle: { color: "#6C7A8D", fontName: fontName, fontSize: 11 },
-               titleTextStyle: { color: "#1B2D55", fontName: fontName, fontSize: 12, italic: false },
+      hAxis: { textStyle: { color: mutedColor(meta), fontName: fontName, fontSize: 11 },
+               titleTextStyle: { color: inkColor(meta), fontName: fontName, fontSize: 12, italic: false },
                gridlines: { color: "#E4E7EB", count: -1 } },
-      vAxis: { textStyle: { color: "#6C7A8D", fontName: fontName, fontSize: 11 },
-               titleTextStyle: { color: "#1B2D55", fontName: fontName, fontSize: 12, italic: false },
+      vAxis: { textStyle: { color: mutedColor(meta), fontName: fontName, fontSize: 11 },
+               titleTextStyle: { color: inkColor(meta), fontName: fontName, fontSize: 12, italic: false },
                gridlines: { color: "#E4E7EB", count: -1 } },
       chartArea: { left: 80, top: 50, width: "75%", height: "70%" }
     };
@@ -295,8 +303,8 @@
         // stays offset from the bar end.
         alwaysOutside: true,
         textStyle: {
-          fontName: meta.tx2036style ? "Montserrat" : undefined,
-          fontSize: 14, bold: true, color: "#1B2D55", auraColor: "none"
+          fontName: meta.tx2036style ? "Montserrat, Roboto, Arial, sans-serif" : undefined,
+          fontSize: 14, bold: true, color: inkColor(meta), auraColor: "none"
         },
         stem: { color: "transparent", length: 12 },
         highContrast: false,
@@ -537,9 +545,9 @@
       hAxis: { title: meta.xlabel || "", viewWindow: xw },
       vAxis: { title: meta.ylabel || "", viewWindow: yw },
       bubble: { textStyle: { auraColor: "transparent",
-                              color: "#1B2D55", fontName: meta.tx2036style ? "Montserrat" : "sans-serif",
+                              color: inkColor(meta), fontName: meta.tx2036style ? "Montserrat, Roboto, Arial, sans-serif" : "sans-serif",
                               fontSize: 10 },
-                opacity: 0.78, stroke: "#1B2D55" },
+                opacity: 0.78, stroke: inkColor(meta) },
       sizeAxis: { minSize: 3, maxSize: 36 },
       legend: { position: "right" }
     });
@@ -706,8 +714,8 @@
       width: +meta.width || 980, height: +meta.height || 560,
       backgroundColor: "transparent",
       timeline: { showRowLabels: true, colorByRowLabel: false,
-                  rowLabelStyle: { fontName: meta.tx2036style ? "Montserrat" : "sans-serif", fontSize: 12, color: "#1B2D55" },
-                  barLabelStyle: { fontName: meta.tx2036style ? "Montserrat" : "sans-serif", fontSize: 11 } }
+                  rowLabelStyle: { fontName: meta.tx2036style ? "Montserrat, Roboto, Arial, sans-serif" : "sans-serif", fontSize: 12, color: inkColor(meta) },
+                  barLabelStyle: { fontName: meta.tx2036style ? "Montserrat, Roboto, Arial, sans-serif" : "sans-serif", fontSize: 11 } }
     });
     var container = document.getElementById("chart");
     var chart = new google.visualization.Timeline(container);

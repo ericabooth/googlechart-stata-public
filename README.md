@@ -5,9 +5,9 @@
 Create a self-contained interactive HTML page, dashboard, or single embeddable iframe from any Stata dataset. Fourteen chart types, native filter dropdowns, animations, an interactive searchable table, and a Pew-style diverging stacked bar — all from a single command.
 
 ```stata
-* Column chart with brand palette + animate-on-scroll + Export menu
+* Column chart with animate-on-scroll + Export menu
 googlechart poverty_rate, name(region) type(column)             ///
-    tx2036style download datatable animate                      ///
+    download datatable animate                                  ///
     title("Texas regions: mean poverty rate")                   ///
     ylabel("Poverty rate (%)")                                  ///
     export("poverty_by_region.html")
@@ -69,19 +69,11 @@ Consequences:
 - The HTML is small (~10–20 KB before content), but won't render without internet access.
 - Texas county choropleth / school-district maps are NOT supported by Google's GeoChart (it stops at US-state level). Use sparkta2 for sub-state US geography.
 
-## Branding
+## Colors and the internal house style
 
-The package ships a default Texas 2036 palette and Montserrat typography behind one option, `tx2036style`. Montserrat is loaded from Google Fonts at view time (same network requirement as the chart engine). The palette is:
+Colors come from `scheme()`: `default` (Google Charts' standard series colors, used when you omit the option), `blues`, `reds`, `greens`, `oranges`, `purples`, `rdbu`, `rdylgn`, and `viridis`. Geo charts default to `blues` and diverging bars to `rdbu`.
 
-| Token  | Hex      |
-|--------|----------|
-| Navy   | `#1B2D55` |
-| Orange | `#D44500` |
-| Link blue | `#2B6CB0` |
-| Light bg | `#F5F7FA` |
-| Muted gray | `#6C7A8D` |
-
-You can pick any other palette with `scheme(blues | reds | greens | rdbu | rdylgn | viridis | ...)`. Without `tx2036style`, charts render in Google's default theme.
+The `tx2036style` option and the `tx2036` palette are an internal house style used in the authors' own workflows at Texas 2036. They are off unless you ask for them, and you do not need them. With `tx2036style`, the page asks Google Fonts for the Montserrat font; if the font cannot load, the browser uses a system font and the chart still draws. No style files are needed on your computer.
 
 ## Quick start
 
@@ -97,7 +89,7 @@ input str10 region float poverty_rate
 end
 
 googlechart poverty_rate, name(region) type(column)             ///
-    tx2036style download datatable animate                      ///
+    download datatable animate                                  ///
     title("Central Texas leads regional poverty rates")         ///
     ylabel("Poverty rate (%)")                                  ///
     export("01_column.html")

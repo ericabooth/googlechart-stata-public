@@ -1,4 +1,7 @@
-*! googlechart_writehtml v0.1.1  2026-06-28
+*! googlechart_writehtml v0.1.2  2026-11-08
+*! v0.1.2: ISTX2036style (was ISTX2036Style, which older Stata reads as a
+*!   different name than the caller passes -> "option istx2036Style()
+*!   required"); house colors and font only when istx2036style is on.
 *! Assemble the self-contained HTML for a googlechart chart.
 *!
 *! Page structure mirrors sparkta2's chart writehtml (Texas 2036 brand
@@ -17,7 +20,7 @@ program define googlechart_writehtml
         TYPE(string) SCHEME(string) TITLE(string)                        ///
         WIDTH(integer) HEIGHT(integer)                                   ///
         ISDOWNload(integer) ISDATAtable(integer) ISANImate(integer)      ///
-        ISTX2036Style(integer) ISSTACKed(integer) ISNORMAlize(integer)   ///
+        ISTX2036style(integer) ISSTACKed(integer) ISNORMAlize(integer)   ///
         ISDIRECTlabels(integer)                                          ///
         [ SUBtitle(string) NOTE(string)                                  ///
           XLAbel(string) YLAbel(string)                                  ///
@@ -63,7 +66,14 @@ program define googlechart_writehtml
     file write `fh' `"<script src="https://www.gstatic.com/charts/loader.js"></script>"' _n
 
     file write `fh' `"<style>"' _n
-    file write `fh' `":root{--ink:#1B2D55;--accent:#D44500;--link:#2B6CB0;--bg:#F5F7FA;--muted:#6C7A8D;--card:#ffffff;--line:#e2e8f0;}"' _n
+    * Page colors: neutral by default; the authors' house colors only with
+    * istx2036style.
+    if `istx2036style' {
+        file write `fh' `":root{--ink:#1B2D55;--accent:#D44500;--link:#2B6CB0;--bg:#F5F7FA;--muted:#6C7A8D;--card:#ffffff;--line:#e2e8f0;}"' _n
+    }
+    else {
+        file write `fh' `":root{--ink:#202124;--accent:#1a73e8;--link:#1a73e8;--bg:#f8f9fa;--muted:#5f6368;--card:#ffffff;--line:#e2e8f0;}"' _n
+    }
     if `istx2036style' {
         file write `fh' `"*{box-sizing:border-box;}body{margin:0;font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);font-weight:400;letter-spacing:-0.005em;}"' _n
         file write `fh' `"h1{font-weight:700;letter-spacing:-0.01em;}"' _n
@@ -170,14 +180,15 @@ program define googlechart_writehtml
     * default the Google Charts Table sets inline), the table can never
     * exceed its container, so per-cell min-widths get ignored and the
     * scroll affordance never triggers.
-    file write `fh' `".google-visualization-table-table { border-collapse: collapse !important; font-family: 'Montserrat',-apple-system,sans-serif !important; font-size: .85rem !important; width: auto !important; min-width: 100% !important; }"' _n
+    local _tblfont = cond(`istx2036style', "Montserrat,-apple-system,sans-serif", "-apple-system,BlinkMacSystemFont,Roboto,Arial,sans-serif")
+    file write `fh' `".google-visualization-table-table { border-collapse: collapse !important; font-family: `_tblfont' !important; font-size: .85rem !important; width: auto !important; min-width: 100% !important; }"' _n
     * Give cells comfortable padding so 6-column tables exceed the card
     * width and trigger the horizontal scroll affordance.  Without this
     * Google's defaults pack everything into ~720px regardless of column count.
     file write `fh' `".google-visualization-table-table th, .google-visualization-table-table td { white-space: nowrap !important; min-width: 180px !important; padding: 8px 12px !important; }"' _n
     file write `fh' `".google-visualization-table-table th:first-child, .google-visualization-table-table td:first-child { min-width: 500px !important; }"' _n
     file write `fh' `".google-visualization-table-table th { position: sticky; top: 0; background: var(--ink) !important; color: #fff !important; padding: 8px 10px !important; font-weight: 600 !important; text-align: left !important; border-bottom: 1px solid var(--line) !important; }"' _n
-    file write `fh' `".google-visualization-table-table td { padding: 6px 10px !important; border-bottom: 1px solid #f1f5f9 !important; color: #1B2D55 !important; vertical-align: top !important; }"' _n
+    file write `fh' `".google-visualization-table-table td { padding: 6px 10px !important; border-bottom: 1px solid #f1f5f9 !important; color: var(--ink) !important; vertical-align: top !important; }"' _n
     file write `fh' `".google-visualization-table-table tr.google-visualization-table-tr-even td { background: #ffffff !important; }"' _n
     file write `fh' `".google-visualization-table-table tr.google-visualization-table-tr-odd  td { background: #f8fafc !important; }"' _n
     file write `fh' `".google-visualization-table-table tr.google-visualization-table-tr-over td { background: #eef2f7 !important; }"' _n

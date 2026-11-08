@@ -1,4 +1,10 @@
-*! googlechart v0.1.3  2026-07-04
+*! googlechart v0.1.4  2026-11-08
+*! v0.1.4: options read the same on every Stata version (TX2036style); the
+*!   authors' house style is opt-in only -- default palette is now Google
+*!   Charts' standard colors (geo: blues; divbar: rdbu); unknown scheme()
+*!   names fall back to the default with a note; the page is assembled with
+*!   Mata instead of shell type/cat; a leading "~" in export() is expanded
+*!   here; the house font falls back to a system sans-serif if it can't load.
 *! Stata wrapper for the Google Charts (Visualization API) library.
 *!
 *! SIBLING to sparkta2 -- different use case, not a replacement.
@@ -18,7 +24,7 @@
 *!   timeline, table, histogram, divbar.
 *!
 *! Common features (apply to most types):
-*!   tx2036style    Texas 2036 brand + Montserrat font
+*!   tx2036style    INTERNAL: the authors' house style (off by default)
 *!   download       Export menu (PNG/SVG)
 *!   datatable      View data table + CSV download
 *!   animate        IntersectionObserver-gated initial draw
@@ -43,7 +49,7 @@ program define googlechart, rclass
         NORMAlize                                                  ///
         DIRECTlabels                                               ///
         SCHEME(string)                                             ///
-        TX2036STyle                                                ///
+        TX2036style                                                ///
         DOWNload                                                   ///
         DATATable                                                  ///
         ANIMate                                                    ///
@@ -109,12 +115,22 @@ program define googlechart, rclass
         exit 198
     }
 
+    * Default palette.  The authors' house palette (tx2036) is used only when
+    * tx2036style or scheme(tx2036) asks for it; everyone else gets Google
+    * Charts' standard colors, a sequential ramp for maps, and a diverging
+    * pair for Likert bars.
     if "`scheme'" == "" {
-        if `is_tx2036st' local scheme "tx2036"
-        else if "`type'" == "divbar" local scheme "rdbu"
-        else                          local scheme "tx2036"
+        if `is_tx2036st'               local scheme "tx2036"
+        else if "`type'" == "divbar"   local scheme "rdbu"
+        else if "`type'" == "geo"      local scheme "blues"
+        else                           local scheme "default"
     }
     local scheme = lower("`scheme'")
+    local _known "default tx2036 blues reds greens oranges purples rdbu rdylgn viridis"
+    if !`: list scheme in _known' {
+        display as text "googlechart: note: scheme(`scheme') is not a built-in palette; using scheme(default)."
+        local scheme "default"
+    }
 
     * For BAR type, the user often expects HORIZONTAL.  Google Charts'
     * BarChart class IS horizontal; ColumnChart is vertical.  Resolve here.
@@ -195,6 +211,10 @@ program define googlechart, rclass
         }
     }
     if "`export'" == "" local export "`c(pwd)'/googlechart_`type'.html"
+    * If export() starts with "~", expand it here so the HTML writer and the
+    * copy step get the same full path; how "~" is handled otherwise differs
+    * across operating systems and Stata versions.
+    _gc_expandtilde, local(export) path(`"`export'"')
 
     * --- Discover the engine and helpers --------------------------
     * The engine is shipped as googlechart_engine.sthlp because Stata's
@@ -478,4 +498,40 @@ program define googlechart, rclass
     return local type   "`type'"
     return scalar n_rows = `_rows_written'
 
+end
+
+
+* Expand a leading "~" (bare "~", "~/" or "~\") to the home directory, without
+* relying on the operating system, Stata, or Mata to do it.  "~otheruser/..."
+* and a "~" anywhere else are left alone.  Result goes to the caller's local.
+program define _gc_expandtilde
+    version 17.0
+    syntax , LOCAL(name) [ PATH(string) ]
+    local p `"`path'"'
+    if `"`p'"' == "~" | strpos(`"`p'"', "~/") == 1 | strpos(`"`p'"', "~\") == 1 {
+        if lower("`c(os)'") == "windows" local order "USERPROFILE HOMEDRIVEPATH HOME"
+        else                              local order "HOME USERPROFILE HOMEDRIVEPATH"
+        local home ""
+        foreach src of local order {
+            if `"`home'"' != "" continue
+            if "`src'" == "HOMEDRIVEPATH" {
+                local drive : env HOMEDRIVE
+                local hpath : env HOMEPATH
+                if `"`drive'`hpath'"' != "" local home `"`drive'`hpath'"'
+            }
+            else local home : env `src'
+        }
+        if `"`home'"' != "" {
+            local rest = substr(`"`p'"', 2, .)
+            if `"`rest'"' != "" {
+                local cl = substr(`"`home'"', -1, 1)
+                if `"`cl'"' == "/" | `"`cl'"' == "\" {
+                    if length(`"`home'"') > 1 local home = substr(`"`home'"', 1, length(`"`home'"') - 1)
+                    else local rest = substr(`"`rest'"', 2, .)
+                }
+            }
+            local p `"`home'`rest'"'
+        }
+    }
+    c_local `local' `"`p'"'
 end

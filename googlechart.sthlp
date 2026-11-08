@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 0.1.3  2026-07-04}{...}
+{* *! version 0.1.4  2026-11-08}{...}
 {vieweralsosee "[G] graph" "help graph"}{...}
 {vieweralsosee "sparkta2" "help sparkta2"}{...}
 {viewerjumpto "Syntax" "googlechart##syntax"}{...}
@@ -54,9 +54,13 @@ choropleth, or you want bivariate / hexbin maps.
 
 {pstd}
 Colors come from {cmd:scheme()}, which selects among the built-in palettes
-({bf:blues}, {bf:reds}, {bf:viridis}, and others).  One further option,
-{cmd:tx2036style}, applies a fixed house style (Montserrat plus the Texas 2036
-palette) for teams that publish under it; see the option list below.
+({bf:default}, {bf:blues}, {bf:reds}, {bf:viridis}, and others).  If you omit
+it, {cmd:googlechart} uses {bf:default}, Google Charts' standard series colors;
+{cmd:type(geo)} uses {bf:blues} and {cmd:type(divbar)} uses {bf:rdbu}.  The
+{cmd:tx2036style} option and the {bf:tx2036} palette are an {it:internal} house
+style used in the authors' own workflows.  They are off unless you ask for
+them, and you do not need them; see
+{help googlechart##technical:Technical notes}.
 
 
 {marker types}{...}
@@ -115,8 +119,8 @@ palette) for teams that publish under it; see the option list below.
 {synopt :{cmd:combodflt(}{it:string}{cmd:)}}default chart type per series for {cmd:combo}{p_end}
 
 {syntab :Brand + interactivity}
-{synopt :{cmd:tx2036style}}Texas 2036 brand + Montserrat font{p_end}
-{synopt :{cmd:scheme(}{it:string}{cmd:)}}color palette: {bf:tx2036} | {bf:blues} | {bf:reds} | {bf:viridis} | etc.{p_end}
+{synopt :{cmd:tx2036style}}{it:internal}: the authors' house style (Montserrat font, house colors); off by default{p_end}
+{synopt :{cmd:scheme(}{it:string}{cmd:)}}color palette: {bf:default} | {bf:blues} | {bf:reds} | {bf:greens} | {bf:oranges} | {bf:purples} | {bf:rdbu} | {bf:rdylgn} | {bf:viridis}; default {bf:default}{p_end}
 {synopt :{cmd:download}}include the Export menu (PNG/SVG){p_end}
 {synopt :{cmd:datatable}}add CSV download + "View data table" toggle{p_end}
 {synopt :{cmd:animate}}IntersectionObserver-gated draw (chart appears + animates when scrolled into view){p_end}
@@ -348,6 +352,37 @@ visible while you scroll a long table; that is the default for every
 {synopt :{cmd:r(export)}}path of the HTML file written{p_end}
 {synopt :{cmd:r(type)}}chart type rendered{p_end}
 {p2colreset}{...}
+
+
+{marker technical}{...}
+{title:Technical notes}
+
+{pstd}
+{bf:House style.}  {cmd:tx2036style} and {cmd:scheme(tx2036)} apply the house
+style the authors use at Texas 2036.  They are internal conveniences, off
+unless you ask for them.  With {cmd:tx2036style}, the page asks Google Fonts for
+the Montserrat font when it opens; if that font cannot load (offline or
+blocked), the browser uses a system font and the chart still draws.  No style
+files are needed on your computer, and nothing about the house style can stop
+a chart that does not ask for it.
+
+{pstd}
+{bf:Mata function.}  To copy the chart data and the drawing code into the page
+without running an operating-system command, {cmd:googlechart} defines one
+Mata function, {cmd:_googlechart_appendbytes()}, in the file
+{cmd:googlechart_appendfile.ado}.  Stata keeps a function defined in an
+ado-file private to that file, so it does not replace, and is not replaced by,
+a Mata function of the same name from another package or from your own
+session, and {cmd:mata clear} does not remove it.  The only name that matters
+is the file name: if another package shipped its own
+{cmd:googlechart_appendfile.ado} earlier on your {help adopath}, Stata would run
+that file instead.  {cmd:which googlechart_appendfile} shows which copy Stata
+uses.
+
+{pstd}
+{bf:Paths.}  Give {cmd:export()} a full path.  {cmd:googlechart} expands a
+leading {bf:~} itself, but operating systems and Stata versions treat {bf:~}
+differently, so a full path is the safe choice.
 
 
 {title:Author and acknowledgements}
