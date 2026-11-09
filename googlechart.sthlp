@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 0.1.5  2026-11-09}{...}
+{* *! version 0.1.6  2026-11-09}{...}
 {vieweralsosee "[G] graph" "help graph"}{...}
 {vieweralsosee "sparkta2" "help sparkta2"}{...}
 {viewerjumpto "Syntax" "googlechart##syntax"}{...}
@@ -96,8 +96,8 @@ them, and you do not need them; see
 {synopt :{cmd:level(}{it:varname}{cmd:)}}response level (Likert) for {cmd:divbar}{p_end}
 {synopt :{cmd:levelorder(}{it:string}{cmd:)}}pipe-separated explicit level order{p_end}
 {synopt :{cmd:centerlevel(}{it:string}{cmd:)}}centering level for {cmd:divbar} (e.g. Neutral); must be one of the {cmd:levelorder()} entries or, without {cmd:levelorder()}, a value of {cmd:level()} in the data, or {cmd:googlechart} stops with an error{p_end}
-{synopt :{cmd:startvar(}{it:varname}{cmd:)}}timeline start date or year{p_end}
-{synopt :{cmd:endvar(}{it:varname}{cmd:)}}timeline end date or year{p_end}
+{synopt :{cmd:startvar(}{it:varname}{cmd:)}}timeline start: a date ({cmd:%td}, {cmd:%tw}, {cmd:%tm}, {cmd:%tq}, {cmd:%th}), a date-time ({cmd:%tc}, {cmd:%tC}), or a four-digit year{p_end}
+{synopt :{cmd:endvar(}{it:varname}{cmd:)}}timeline end, in the same forms as {cmd:startvar()}{p_end}
 {synopt :{cmd:sizevar(}{it:varname}{cmd:)}}bubble size{p_end}
 {synopt :{cmd:tooltipvars(}{it:varlist}{cmd:)}}extra fields shown in the data table{p_end}
 

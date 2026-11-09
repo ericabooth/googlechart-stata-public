@@ -1,4 +1,7 @@
-*! googlechart v0.1.5  2026-11-09
+*! googlechart v0.1.6  2026-11-09
+*! v0.1.6: timeline startvar()/endvar() with a %tc or %tC datetime format are
+*!   written as date-times (they were read as %td days, giving wrong dates);
+*!   %tw/%tm/%tq/%th dates are written as the day their period starts.
 *! v0.1.5: numbers are written at full precision (floats at the precision they
 *!   hold, doubles exactly) and no longer depend on set dp; string data is
 *!   written without macro expansion, so "$" and "`" in values survive and a
@@ -723,14 +726,31 @@ real scalar _gc_hasdup(string scalar vars, string scalar tu)
     return(rows(uniqrows(key)) < rows(key))
 }
 
-// A timeline start/end value: an ISO date (YYYY-MM-DD) when the variable has
-// a date format, the number otherwise.
+// A timeline start/end value.  A %tc / %tC datetime becomes an ISO date-time
+// (YYYY-MM-DDTHH:MM:SS, with .sss when there are milliseconds); a %td date
+// an ISO date (YYYY-MM-DD); a %tw / %tm / %tq / %th date the ISO date its
+// period starts on; a %ty year, or a variable without a date format, the
+// number (the page reads a four-digit number as 1 January of that year).
 string scalar _gc_jdate(real scalar i, string scalar v)
 {
     real scalar x
+    string scalar f, k
 
     x = st_data(i, v)
-    if (regexm(st_varformat(v), "^%-?[dt]")) return(strofreal(x, "%tdCCYY-NN-DD"))
+    f = subinstr(st_varformat(v), "-", "")
+    if (substr(f, 1, 2) == "%d") k = "d"
+    else if (substr(f, 1, 2) == "%t") k = substr(f, 3, 1)
+    else k = ""
+    if (k == "c" | k == "C") {
+        if (k == "C") x = cofC(x)
+        if (mod(x, 1000) != 0) return(strofreal(x, "%tcCCYY-NN-DD!THH:MM:SS.sss"))
+        return(strofreal(x, "%tcCCYY-NN-DD!THH:MM:SS"))
+    }
+    if (k == "d") return(strofreal(x, "%tdCCYY-NN-DD"))
+    if (k == "w") return(strofreal(dofw(x), "%tdCCYY-NN-DD"))
+    if (k == "m") return(strofreal(dofm(x), "%tdCCYY-NN-DD"))
+    if (k == "q") return(strofreal(dofq(x), "%tdCCYY-NN-DD"))
+    if (k == "h") return(strofreal(dofh(x), "%tdCCYY-NN-DD"))
     return(_gc_jnum(x, st_vartype(v) == "float"))
 }
 end

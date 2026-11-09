@@ -103,6 +103,10 @@ For a runnable gallery exercising every chart type, see [test_googlechart.do](te
 
 ## Changelog
 
+### v0.1.6
+
+- **Fix: `type(timeline)` drew wrong dates for date-time variables.** A `startvar()` or `endvar()` with a `%tc` or `%tC` format was read as a `%td` day count, so the bars landed thousands of years away. Date-times are now written as ISO date-times (with milliseconds when present). Weekly, monthly, quarterly and half-yearly dates (`%tw`, `%tm`, `%tq`, `%th`) are written as the day their period starts.
+
 ### v0.1.5
 
 - **Fix: numbers kept only about 4 significant digits.** Values were written with Stata's default display format, so an ID of 123456790 became `1.235e+08` and -1234567.891 became -1234567.9. Numbers are now written at full precision: `float` variables at the precision a float holds (14.2 stays 14.2), other types so the value reads back exactly.
