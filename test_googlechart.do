@@ -1,4 +1,4 @@
-*! test_googlechart.do  v0.1.3
+*! test_googlechart.do  v0.1.5
 *!
 *!   Gallery of every googlechart type in the default colors.  Mirrors the
 *!   sparkta2 gallery pattern: one HTML per example + a sparkta2_dashboard
@@ -18,12 +18,10 @@
 *!     7+  column, area, combo, scatter, bubble (with Play), geo,
 *!         timeline, regions table (searchable), histogram
 *!
-*!   SIDE-BY-SIDE WITH THE GOOGLE SHEETS TEMPLATE:
-*!     The internal Sheets recipe (INTERNAL_sheets_template.md) mirrors
-*!     gallery sections 1-7 using identical data.  A new user can open
-*!     the gallery and the Sheet at the same time and watch the same
-*!     numbers render two different ways (Stata + Google Charts vs.
-*!     manual Sheets UI).  See the README for the side-by-side guide.
+*!   SIDE-BY-SIDE WITH A GOOGLE SHEETS VERSION:
+*!     Gallery sections 1-7 use the same data as the authors' own
+*!     step-by-step Google Sheets recipe (not shipped with the package);
+*!     the "SHEET MIRROR" comments below name the matching step.
 
 version 17.0
 clear all
@@ -75,9 +73,9 @@ save "`regions'", replace
 googlechart poverty_rate, name(region_n) type(column)                          ///
       download datatable animate                                     ///
     title("Texas regions: mean poverty rate")                                  ///
-    subtitle("Vertical bars (column), Texas 2036 palette, animate-on-scroll") ///
+    subtitle("Vertical bars (column), default palette, animate-on-scroll")       ///
     ylabel("Poverty rate (%)")                                                 ///
-    note("Source: synthetic data for googlechart v0.1.3 demonstration.")       ///
+    note("Source: synthetic data for googlechart v0.1.5 demonstration.")       ///
     width(900) height(560) noopen                                              ///
     export("`out'/01_column.html")
 
@@ -330,7 +328,7 @@ use "`regions'", clear
 
 *=============================================================================
 * (12) TABLE -- interactive table with free-text search, sticky header,
-*      monospaced numerics, and Texas 2036 styling.  Two variants written:
+*      monospaced numerics, and the default styling.  Two variants written:
 *        12a -- search + sticky on the regions dataset
 *        12b -- search + sticky on the Likert long-form dataset (so the
 *               user can scan all survey items + percentages quickly)
@@ -489,6 +487,7 @@ googlechart share, name(q) level(response) type(divbar)                         
 *   block is guarded, so the test runs standalone when sparkta2 is not installed.
 *   To enable it, install sparkta2 first (see its own repository), then rerun.
 *=============================================================================
+local gallery_built 0
 capture which sparkta2_dashboard
 if !_rc {
     * The sparkta2_dashboard prepends its own "N." section number from
@@ -506,15 +505,17 @@ if !_rc {
         titles("Diverging stacked bar (Pew-style Likert)|Likert long-form (searchable table)|Bar (horizontal, with data labels)|Line (multi-series)|Pie (legend below, square frame)|Donut (legend below, square frame)|Column (same data as bar, vertical)|Area|Combo (bars + line)|Scatter|Bubble (with Play across years)|Geo (US states)|Timeline|Regions table (searchable)|Histogram") ///
         heights("700")                                                           ///
                                                                        ///
-        title("googlechart v0.1.3 -- demo gallery")                              ///
-        subtitle("Fourteen chart types from the Google Visualization API, wrapped for Stata.  Texas 2036 brand (Montserrat + navy/orange) applied throughout.  Requires network at view time -- googlechart loads google.charts/loader.js from gstatic.com per Google ToS.") ///
+        title("googlechart v0.1.5 -- demo gallery")                              ///
+        subtitle("Fourteen chart types from the Google Visualization API, wrapped for Stata.  Default colors throughout.  Requires network at view time -- googlechart loads google.charts/loader.js from gstatic.com per Google ToS.") ///
         export("`out'/00_gallery.html") noopen
+    local gallery_built 1
 }
 else {
     display as text "(Optional gallery roll-up skipped: sparkta2 is not installed;"
     display as text " googlechart itself requires no other package.)"
 }
 
-display as result _n "googlechart demo gallery written to:"
+display as result _n "googlechart demo pages written to:"
 display as result "  `out'"
-display as result "Open 00_gallery.html in a browser to view all 14 charts on one page."
+if `gallery_built' display as result "Open 00_gallery.html in a browser to view all of them on one page."
+else    display as result "Open any of the .html files in a browser to view the charts."

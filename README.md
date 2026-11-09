@@ -29,17 +29,19 @@ Live example site here: https://ericabooth.github.io/GoogleChart_Example_Site/
 | **Network at view time?**  | No — fully offline                                                | **Yes** — Google's ToS forbids self-hosting `loader.js`           |
 | **Chart types**            | bar2, line2, donut, divbar, barrace, hexbin, choropleth (county / district), bivariate, points | column, bar, line, area, combo, pie, donut, scatter, bubble, geo, timeline, **searchable table**, histogram, divbar |
 | **Geo resolution**         | Country, state, county, school district                           | Country, US-state level only                                      |
-| **Filter controls**        | Custom d3-based filters / sliders                                 | Native `Dashboard` + `ControlWrapper`, plus a built-in Search box on `type(table)` |
+| **Filter controls**        | Custom d3-based filters / sliders                                 | `filters()`: a dropdown or range slider per variable on every chart type, plus a built-in Search box on `type(table)` |
 
 ## Supported chart types
 
 `column` `bar` `line` `area` `combo` `pie` `donut` `scatter` `bubble` `geo` `timeline` `table` `histogram` `divbar`
 
 - `divbar` (Pew-style diverging stacked bar) sign-flips negative-side levels and renders via Google's `isStacked` so a neutral level can centre on the zero line. Long row labels auto-wrap to ~50 chars.
-- `table` ships with a free-text Search box, sticky header, alternating row stripes, and tabular-numeric monospaced cells. Add `tablesearch tableheadersticky` to opt in.
-- `pie` / `donut` default to legend below + a square frame so the bounding card hugs the chart instead of leaving an empty band of right-side legend space. Override with `legendpos(right)`.
+- `table` ships with a sticky header, alternating row stripes, and tabular-numeric monospaced cells. Add `tablesearch` for a free-text Search box. The header is sticky whether or not you give `tableheadersticky`, which is accepted for compatibility.
+- `pie` / `donut` default to legend below + a square frame so the bounding card hugs the chart instead of leaving an empty band of right-side legend space. Override with `legendpos(top|right|left|none)`; `legendpos()` applies to pie and donut.
 
 ## Install
+
+Requires Stata 17 or newer.
 
 The package is self-contained — `googlechart.ado`, the helper ado files, the engine, and the helpfile install together. No external Stata dependencies.
 
@@ -66,7 +68,7 @@ The output HTML loads `https://www.gstatic.com/charts/loader.js` at view time, t
 
 Consequences:
 
-- The HTML is small (~10–20 KB before content), but won't render without internet access.
+- The HTML holds your data and the package's own drawing code (about 75 KB before the data), but not the Google Charts library, so it won't render without internet access.
 - Texas county choropleth / school-district maps are NOT supported by Google's GeoChart (it stops at US-state level). Use sparkta2 for sub-state US geography.
 
 ## Colors and the internal house style
@@ -95,11 +97,30 @@ googlechart poverty_rate, name(region) type(column)             ///
     export("01_column.html")
 ```
 
-For a runnable gallery exercising every chart type, see the included test file: [test_googlechart.do](test_googlechart.do).
+For a runnable gallery exercising every chart type, see [test_googlechart.do](test_googlechart.do) in this repository. `net install` does not copy it, so download it from here. [test_googlechart_filters.do](test_googlechart_filters.do) writes one `filters()` page per chart type and checks what each page holds.
 
 <img width="1286" height="715" alt="Screenshot 2026-06-29 at 1 02 56 PM" src="https://github.com/user-attachments/assets/88dbb18e-5718-464e-929f-b9e4464da4ce" />
 
 ## Changelog
+
+### v0.1.5
+
+- **Fix: numbers kept only about 4 significant digits.** Values were written with Stata's default display format, so an ID of 123456790 became `1.235e+08` and -1234567.891 became -1234567.9. Numbers are now written at full precision: `float` variables at the precision a float holds (14.2 stays 14.2), other types so the value reads back exactly.
+- **Fix: `set dp comma` produced a blank chart.** The page always uses a `.` decimal point now.
+- **Fix: `$` and `` ` `` in string data were treated as macros**, so a label like `Revenue $M` lost text. String values, value labels and variable labels are now written as they are.
+- **Fix: a value ending in a double quote stopped the command** with `type mismatch`, r(109).
+- **Fix: line breaks, tabs, other control characters and `</script>`** in data or in `title()` left the chart blank. They are now escaped.
+- **Checks:** `legendpos()` must be `top`, `right`, `bottom`, `left` or `none` (new); `innerradius()` must be greater than 0 and less than 1; `centerlevel()` must name one of the levels. Each gives a clear error, r(198), instead of being accepted silently.
+- **Fix: `filters()` drew a blank chart** ("Invalid column label" / "One or more participants failed to draw()") for column/bar/line/area charts and tables, because the filter variables were never written to the page. Each row now carries its filter values; the page draws its own dropdown (string or value-labeled variable) or low/high range slider (other numeric), and on each change it filters the rows and builds the chart again. `filters()` now works with all fourteen types, with `over()`, `tooltipvars()`, labeled filter variables, and together with `tablesearch` (previously one or the other). The row count, **Download CSV** and **View data table** follow the filters. See `help googlechart##filtersdetail`; regression cases are in `test_googlechart_filters.do`.
+- Docs: help example 5 (bubble) now puts the variables in the order its axis titles describe; corrected the page-size statement, the sticky-header sentence, and the location of `test_googlechart.do`.
+
+### v0.1.4
+
+- Options read the same on every Stata version (`tx2036style`).
+- The authors' house style is opt-in only. The default palette is Google Charts' standard colors (geo: blues; divbar: rdbu). An unknown `scheme()` falls back to the default with a note.
+- The page is assembled with Mata instead of the shell (`type`/`cat`); a failed copy now stops with an error.
+- A leading `~` in `export()` is expanded by the package.
+- With `tx2036style`, the page falls back to a system font if Montserrat cannot load.
 
 ### v0.1.3
 
