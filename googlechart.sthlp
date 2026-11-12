@@ -1,5 +1,5 @@
 {smcl}
-{* *! version 0.1.6  2026-11-09}{...}
+{* *! version 0.1.7  2026-11-12}{...}
 {vieweralsosee "[G] graph" "help graph"}{...}
 {vieweralsosee "sparkta2" "help sparkta2"}{...}
 {viewerjumpto "Syntax" "googlechart##syntax"}{...}

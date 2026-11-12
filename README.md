@@ -103,6 +103,10 @@ For a runnable gallery exercising every chart type, see [test_googlechart.do](te
 
 ## Changelog
 
+### v0.1.7
+
+- The value axis of `bar`, `column`, and `area` charts always includes zero, so bar lengths are proportional to the values. Google Charts' automatic scaling used to start the axis near the smallest value, which exaggerated differences between bars.
+
 ### v0.1.6
 
 - **Fix: `type(timeline)` drew wrong dates for date-time variables.** A `startvar()` or `endvar()` with a `%tc` or `%tC` format was read as a `%td` day count, so the bars landed thousands of years away. Date-times are now written as ISO date-times (with milliseconds when present). Weekly, monthly, quarterly and half-yearly dates (`%tw`, `%tm`, `%tq`, `%th`) are written as the day their period starts.

@@ -1,4 +1,7 @@
-*! googlechart v0.1.6  2026-11-09
+*! googlechart v0.1.7  2026-11-12
+*! v0.1.7: the value axis of bar, column, and area charts always includes
+*!   zero, so bar lengths are proportional to the values (the axis used to
+*!   start near the smallest value).
 *! v0.1.6: timeline startvar()/endvar() with a %tc or %tC datetime format are
 *!   written as date-times (they were read as %td days, giving wrong dates);
 *!   %tw/%tm/%tq/%th dates are written as the day their period starts.

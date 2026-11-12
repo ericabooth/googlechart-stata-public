@@ -388,6 +388,18 @@
       opts.hAxis.title = meta.ylabel || opts.hAxis.title;
       opts.vAxis.title = meta.xlabel || opts.vAxis.title;
     }
+    // Bars, columns and areas show a value by their length or height, so
+    // the value axis has to include zero: Google's automatic scaling
+    // otherwise starts the axis near the smallest value, and a bar for 18.8
+    // is drawn many times as long as a bar for 10.5.  minValue and maxValue
+    // only extend the automatic range, so data on both sides of zero are
+    // unaffected.  Lines and scatters keep the automatic range.
+    if (className === "BarChart" || className === "ColumnChart" || className === "AreaChart") {
+      var valueAxis = (className === "BarChart") ? opts.hAxis : opts.vAxis;
+      valueAxis.minValue = 0;
+      valueAxis.maxValue = 0;
+      valueAxis.baseline = 0;
+    }
 
     var container = document.getElementById("chart");
     var chart = new google.visualization[className](container);
