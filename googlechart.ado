@@ -244,7 +244,8 @@ program define googlechart, rclass
             exit 198
         }
         display as txt "googlechart: type(geo) supports country and US-state level only."
-        display as txt "  For county or school-district choropleths, use a mapping command that reads shapefiles."
+        display as txt "  For county or school-district choropleths, use a mapping command"
+        display as txt "  that reads shapefiles."
     }
 
     if `"`macval(title)'"' == "" {
